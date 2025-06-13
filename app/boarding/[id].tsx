@@ -49,13 +49,13 @@ const boardingPages = [
 		id: 1,
 		title: (
 			<Text style={styles.title}>
-				Lorem <Text style={styles.specialTitleText}>Ipsum is simply</Text> dummy
-				text printing
+				Welcome to <Text style={styles.specialTitleText}>YourApp</Text>
 			</Text>
 		),
 		text: (
 			<Text style={styles.text}>
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+				Discover a smarter way to manage your daily tasks and stay organized with
+				ease.
 			</Text>
 		),
 		image: require("../../assets/images/boarding-1.png"),
@@ -64,13 +64,13 @@ const boardingPages = [
 		id: 2,
 		title: (
 			<Text style={styles.title}>
-				Lorem <Text style={styles.specialTitleText}>Ipsum is simply</Text> dummy
-				text printing
+				Stay <Text style={styles.specialTitleText}>Connected</Text> & In Sync
 			</Text>
 		),
 		text: (
 			<Text style={styles.text}>
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+				Real-time updates and cloud sync ensure your data is always safe and
+				accessible.
 			</Text>
 		),
 		image: require("../../assets/images/boarding-2.png"),
@@ -79,13 +79,13 @@ const boardingPages = [
 		id: 3,
 		title: (
 			<Text style={styles.title}>
-				Lorem <Text style={styles.specialTitleText}>Ipsum is simply</Text> dummy
-				text printing
+				Get <Text style={styles.specialTitleText}>Started</Text> Today!
 			</Text>
 		),
 		text: (
 			<Text style={styles.text}>
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+				Create your free account and take the first step toward a more productive
+				life.
 			</Text>
 		),
 		image: require("../../assets/images/boarding-3.png"),
@@ -98,14 +98,15 @@ export default function Boarding() {
 
 	function handleNextPage() {
 		if (boardingPages.length == id) {
+			router.push("/auth/signin");
 			return;
 		}
 
-		router.push(`/boarding/${id + 1}`);
+		router.navigate(`/boarding/${id + 1}`);
 	}
 
 	function skipHandler() {
-		router.push(`/signin`);
+		router.push(`/auth/signin`);
 	}
 
 	const boardingPage = boardingPages.find((page) => page.id == id);
