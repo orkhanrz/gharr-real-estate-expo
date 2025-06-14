@@ -1,6 +1,7 @@
 import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 type Data = {
@@ -8,26 +9,23 @@ type Data = {
 	value: string;
 };
 
-type Props = {
+type Props<T extends FieldValues> = {
 	label: string;
 	placeholder?: string;
 	icon?: keyof typeof Ionicons.glyphMap;
-	value: string;
 	data: Data[];
-	onSelect: (value: string) => void;
+	name: Path<T>;
+	control: Control<T>;
 };
 
 type ItemProps = {
 	item: Data;
-	onSelect: (value: string) => void;
-	onBlur: () => void;
+	onSelect: (selectedValue: string) => void;
 };
 
-function DropdownItem({ item, onSelect, onBlur }: ItemProps) {
+function DropdownItem({ item, onSelect }: ItemProps) {
 	function handleSelect() {
-		console.log(item.value);
 		onSelect(item.value);
-		onBlur();
 	}
 
 	return (
@@ -37,25 +35,31 @@ function DropdownItem({ item, onSelect, onBlur }: ItemProps) {
 	);
 }
 
-export default function Select({
+export default function Select<T extends FieldValues>({
 	label,
 	placeholder,
 	icon,
-	value,
 	data,
-	onSelect,
-}: Props) {
+	control,
+	name,
+}: Props<T>) {
 	const [isFocused, setIsFocused] = useState(false);
 
-	const handlePress = () => {
+	const {
+		field: { value, onChange },
+		fieldState: { error },
+	} = useController({ control, name });
+
+	const handleFocus = () => {
 		setIsFocused(true);
 	};
 
-	const handleBlur = () => {
+	const handleSelect = (selectedValue: string) => {
+		onChange(selectedValue);
 		setIsFocused(false);
 	};
 
-	const selectedLabel = data.find((item) => item.value == value)?.label;
+	const selectedLabel = data.find((item: Data) => item.value == value)?.label;
 
 	return (
 		<View style={styles.container}>
@@ -80,7 +84,6 @@ export default function Select({
 					style={[styles.input, isFocused && styles.inputFocused]}
 					placeholder={placeholder}
 					placeholderTextColor={globalStyles.inputPlaceholderColor}
-					onFocus={handlePress}
 					value={selectedLabel}
 				/>
 
@@ -97,6 +100,7 @@ export default function Select({
 							? globalStyles.primaryColor
 							: globalStyles.inputPlaceholderColor
 					}
+					onPress={handleFocus}
 				/>
 
 				{isFocused && (
@@ -104,11 +108,7 @@ export default function Select({
 						<FlatList
 							data={data}
 							renderItem={({ item }) => (
-								<DropdownItem
-									item={item}
-									onSelect={onSelect}
-									onBlur={handleBlur}
-								/>
+								<DropdownItem item={item} onSelect={handleSelect} />
 							)}
 							keyExtractor={(item) => item.value}
 							scrollEnabled={false}
@@ -116,6 +116,8 @@ export default function Select({
 					</View>
 				)}
 			</View>
+
+			{error && <Text style={styles.errorText}>{error.message}</Text>}
 		</View>
 	);
 }
@@ -141,6 +143,14 @@ const styles = StyleSheet.create({
 	},
 	inputContainerFocused: {
 		borderColor: globalStyles.primaryColor,
+	},
+	errorContainer: {
+		borderColor: globalStyles.redColor,
+	},
+	errorText: {
+		fontSize: 14,
+		marginTop: 5,
+		color: globalStyles.redColor,
 	},
 	icon: {
 		paddingLeft: 20,

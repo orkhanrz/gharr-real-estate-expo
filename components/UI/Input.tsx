@@ -1,37 +1,44 @@
 import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 
-type Props = {
+type Props<T extends FieldValues> = {
+	control: Control<T>;
+	name: Path<T>;
 	label: string;
 	placeholder?: string;
 	type?: TextInputProps["textContentType"];
 	icon?: keyof typeof Ionicons.glyphMap;
 	rightIcon?: keyof typeof Ionicons.glyphMap;
-	value: string;
 	onRightIconClick?: () => void;
-	onChangeText: (text: string) => void;
 };
 
-export default function Input({
+export default function Input<T extends FieldValues>({
+	control,
+	name,
 	label,
 	placeholder,
 	type,
 	icon,
 	rightIcon,
-	value,
 	onRightIconClick,
-	onChangeText,
-}: Props) {
+}: Props<T>) {
+	const {
+		field,
+		fieldState: { error },
+	} = useController({ control, name });
+
 	const [isFocused, setIsFocused] = useState(false);
 
-	const handlePress = () => {
-		setIsFocused(true);
+	const handleBlur = () => {
+		field.onBlur();
+		setIsFocused(false);
 	};
 
-	const handleBlur = () => {
-		setIsFocused(false);
+	const handleFocus = () => {
+		setIsFocused(true);
 	};
 
 	return (
@@ -39,7 +46,11 @@ export default function Input({
 			<Text style={styles.label}>{label}</Text>
 
 			<View
-				style={[styles.inputContainer, isFocused && styles.inputContainerFocused]}
+				style={[
+					styles.inputContainer,
+					isFocused && styles.inputContainerFocused,
+					error && styles.errorContainer,
+				]}
 			>
 				{icon && (
 					<Ionicons
@@ -59,10 +70,10 @@ export default function Input({
 					textContentType={type}
 					placeholder={isFocused ? "" : placeholder}
 					placeholderTextColor={globalStyles.inputPlaceholderColor}
-					onFocus={handlePress}
+					value={field.value}
 					onBlur={handleBlur}
-					value={value}
-					onChangeText={onChangeText}
+					onFocus={handleFocus}
+					onChangeText={field.onChange}
 				/>
 				{rightIcon && (
 					<Ionicons
@@ -78,6 +89,8 @@ export default function Input({
 					/>
 				)}
 			</View>
+
+			{error && <Text style={styles.errorText}>{error.message}</Text>}
 		</View>
 	);
 }
@@ -103,6 +116,14 @@ const styles = StyleSheet.create({
 	},
 	inputContainerFocused: {
 		borderColor: globalStyles.primaryColor,
+	},
+	errorContainer: {
+		borderColor: globalStyles.redColor,
+	},
+	errorText: {
+		fontSize: 14,
+		marginTop: 5,
+		color: globalStyles.redColor,
 	},
 	icon: {
 		paddingLeft: 20,

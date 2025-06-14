@@ -1,10 +1,13 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
+import { signUpDefaultValues, signUpValidationSchema } from "@/constants/auth";
 import { globalStyles } from "@/constants/styles";
 import { UserSignUp } from "@/models/user";
 import { Ionicons } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
 	Image,
 	KeyboardAvoidingView,
@@ -16,28 +19,25 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUp() {
-	const router = useRouter();
-
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-	const [formData, setFormData] = useState<UserSignUp>({
-		username: "",
-		password: "",
-		email: "",
+	const router = useRouter();
+
+	const { control, getValues, handleSubmit } = useForm<UserSignUp>({
+		defaultValues: signUpDefaultValues,
+		resolver: yupResolver(signUpValidationSchema),
 	});
 
 	const handlePasswordVisibility = () => {
 		setIsPasswordVisible((prev) => !prev);
 	};
 
-	const handleInputChange = (text: string, inputKey: string) => {
-		setFormData((prev) => ({ ...prev, [inputKey]: text }));
-	};
-
 	const handleSignUp = () => {
 		router.push({
 			pathname: "/auth/complete",
-			params: {},
+			params: {
+				...getValues(),
+			},
 		});
 	};
 
@@ -56,8 +56,8 @@ export default function SignUp() {
 					placeholder="Username"
 					type="name"
 					icon="person-outline"
-					value={formData.username}
-					onChangeText={(text) => handleInputChange(text, "username")}
+					name="username"
+					control={control}
 				/>
 
 				<Input
@@ -66,9 +66,9 @@ export default function SignUp() {
 					type={isPasswordVisible ? "newPassword" : "password"}
 					icon="key-outline"
 					rightIcon={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
-					value={formData.password}
-					onChangeText={(text) => handleInputChange(text, "password")}
 					onRightIconClick={handlePasswordVisibility}
+					name="password"
+					control={control}
 				/>
 
 				<Input
@@ -76,11 +76,14 @@ export default function SignUp() {
 					placeholder="Email Address"
 					type="emailAddress"
 					icon="mail-outline"
-					value={formData.email}
-					onChangeText={(text) => handleInputChange(text, "email")}
+					name="email"
+					control={control}
 				/>
 
-				<Button style={{ height: 46, marginBottom: 20 }} onPress={handleSignUp}>
+				<Button
+					style={{ height: 46, marginBottom: 20 }}
+					onPress={handleSubmit(handleSignUp)}
+				>
 					Sign up
 				</Button>
 

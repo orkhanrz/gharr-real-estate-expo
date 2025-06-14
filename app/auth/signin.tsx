@@ -1,33 +1,34 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
+import { signInDefaultValues, signInValidationSchema } from "@/constants/auth";
 import { globalStyles } from "@/constants/styles";
 import { UserSignIn } from "@/models/user";
 import { Ionicons } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
-	const router = useRouter();
-
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-	const [formData, setFormData] = useState<UserSignIn>({
-		username: "",
-		password: "",
+	const { control, handleSubmit } = useForm<UserSignIn>({
+		defaultValues: signInDefaultValues,
+		resolver: yupResolver(signInValidationSchema),
 	});
+
+	const router = useRouter();
 
 	const handlePasswordVisibility = () => {
 		setIsPasswordVisible((prev) => !prev);
 	};
 
-	const handleInputChange = (text: string, inputKey: string) => {
-		setFormData((prev) => ({ ...prev, [inputKey]: text }));
-	};
+	const handleSignIn = (data: any) => {
+		// handle sign in
 
-	const handleSignIn = () => {
-		router.push("/");
+		router.push("/main/home");
 	};
 
 	return (
@@ -45,8 +46,8 @@ export default function SignIn() {
 					placeholder="Username"
 					type="name"
 					icon="person-outline"
-					value={formData.username}
-					onChangeText={(text) => handleInputChange(text, "username")}
+					control={control}
+					name="username"
 				/>
 
 				<Input
@@ -55,12 +56,15 @@ export default function SignIn() {
 					type={isPasswordVisible ? "newPassword" : "password"}
 					icon="key-outline"
 					rightIcon={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
-					value={formData.password}
-					onChangeText={(text) => handleInputChange(text, "password")}
 					onRightIconClick={handlePasswordVisibility}
+					control={control}
+					name="password"
 				/>
 
-				<Button style={{ height: 46, marginBottom: 20 }} onPress={handleSignIn}>
+				<Button
+					style={{ height: 46, marginBottom: 20 }}
+					onPress={handleSubmit(handleSignIn)}
+				>
 					Sign in
 				</Button>
 

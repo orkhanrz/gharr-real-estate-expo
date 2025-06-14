@@ -1,10 +1,15 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import Select from "@/components/UI/Select";
+import {
+	completeSignUpDefaultValues,
+	completeSignUpValidationSchema,
+} from "@/constants/auth";
 import { UserComplete } from "@/models/user";
 import { Ionicons } from "@expo/vector-icons";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -40,20 +45,19 @@ const countries = [
 
 export default function CompleteProfile() {
 	const router = useRouter();
-	const accountDetails = useLocalSearchParams();
 
-	const [formData, setFormData] = useState<UserComplete>({
-		fullname: "",
-		phoneNumber: "",
-		country: "",
+	const signUpFormData = useLocalSearchParams();
+
+	const { control, handleSubmit } = useForm<UserComplete>({
+		defaultValues: completeSignUpDefaultValues,
+		resolver: yupResolver(completeSignUpValidationSchema),
 	});
 
-	const handleInputChange = (text: string, inputKey: string) => {
-		setFormData((prev) => ({ ...prev, [inputKey]: text }));
-	};
+	const handleFormSubmit = (completeFormData: UserComplete) => {
+		const formData = { ...signUpFormData, ...completeFormData };
 
-	const handleFormSubmit = () => {
-		console.log(formData);
+		// handle sign up
+		router.push("/main/home");
 	};
 
 	return (
@@ -89,8 +93,8 @@ export default function CompleteProfile() {
 						placeholder="Fullname"
 						type="name"
 						icon="person-outline"
-						value={formData.fullname}
-						onChangeText={(text) => handleInputChange(text, "fullname")}
+						name="fullname"
+						control={control}
 					/>
 
 					<Input
@@ -98,8 +102,8 @@ export default function CompleteProfile() {
 						placeholder="+994505050505"
 						type="telephoneNumber"
 						icon="phone-portrait-outline"
-						value={formData.phoneNumber}
-						onChangeText={(text) => handleInputChange(text, "phoneNumber")}
+						name="phoneNumber"
+						control={control}
 					/>
 
 					<Select
@@ -107,13 +111,13 @@ export default function CompleteProfile() {
 						placeholder="Country"
 						icon="earth-outline"
 						data={countries}
-						value={formData.country}
-						onSelect={(value) => handleInputChange(value, "country")}
+						name="country"
+						control={control}
 					/>
 
 					<Button
 						style={{ height: 46, marginBottom: 40 }}
-						onPress={handleFormSubmit}
+						onPress={handleSubmit(handleFormSubmit)}
 					>
 						Complete Profile
 					</Button>
