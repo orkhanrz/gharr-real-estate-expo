@@ -1,13 +1,34 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import { globalStyles } from "@/constants/styles";
+import { UserSignIn } from "@/models/user";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
 	const router = useRouter();
+
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+	const [formData, setFormData] = useState<UserSignIn>({
+		username: "",
+		password: "",
+	});
+
+	const handlePasswordVisibility = () => {
+		setIsPasswordVisible((prev) => !prev);
+	};
+
+	const handleInputChange = (text: string, inputKey: string) => {
+		setFormData((prev) => ({ ...prev, [inputKey]: text }));
+	};
+
+	const handleSignIn = () => {
+		router.push("/");
+	};
 
 	return (
 		<SafeAreaView style={styles.screen}>
@@ -19,16 +40,29 @@ export default function SignIn() {
 			<View>
 				<Text style={styles.title}>Sign In</Text>
 
-				<Input label="Username" type="name" icon="person-outline" />
+				<Input
+					label="Username"
+					placeholder="Username"
+					type="name"
+					icon="person-outline"
+					value={formData.username}
+					onChangeText={(text) => handleInputChange(text, "username")}
+				/>
 
 				<Input
 					label="Password"
-					type="password"
+					placeholder="Password"
+					type={isPasswordVisible ? "newPassword" : "password"}
 					icon="key-outline"
-					rightIcon="eye-off-outline"
+					rightIcon={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
+					value={formData.password}
+					onChangeText={(text) => handleInputChange(text, "password")}
+					onRightIconClick={handlePasswordVisibility}
 				/>
 
-				<Button style={{ height: 46, marginBottom: 20 }}>Sign in</Button>
+				<Button style={{ height: 46, marginBottom: 20 }} onPress={handleSignIn}>
+					Sign in
+				</Button>
 
 				<Text style={styles.accountText}>
 					Don't have an account?{" "}

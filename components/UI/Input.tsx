@@ -5,12 +5,25 @@ import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 
 type Props = {
 	label: string;
+	placeholder?: string;
 	type?: TextInputProps["textContentType"];
 	icon?: keyof typeof Ionicons.glyphMap;
 	rightIcon?: keyof typeof Ionicons.glyphMap;
+	value: string;
+	onRightIconClick?: () => void;
+	onChangeText: (text: string) => void;
 };
 
-export default function Input({ type, label, icon, rightIcon }: Props) {
+export default function Input({
+	label,
+	placeholder,
+	type,
+	icon,
+	rightIcon,
+	value,
+	onRightIconClick,
+	onChangeText,
+}: Props) {
 	const [isFocused, setIsFocused] = useState(false);
 
 	const handlePress = () => {
@@ -44,16 +57,19 @@ export default function Input({ type, label, icon, rightIcon }: Props) {
 					style={[styles.input, isFocused && styles.inputFocused]}
 					secureTextEntry={type === "password"}
 					textContentType={type}
-					placeholder={isFocused ? "" : label}
+					placeholder={isFocused ? "" : placeholder}
 					placeholderTextColor={globalStyles.inputPlaceholderColor}
 					onFocus={handlePress}
 					onBlur={handleBlur}
+					value={value}
+					onChangeText={onChangeText}
 				/>
 				{rightIcon && (
 					<Ionicons
 						style={styles.rightIcon}
 						name={rightIcon}
 						size={24}
+						onPress={onRightIconClick}
 						color={
 							isFocused
 								? globalStyles.primaryColor
@@ -97,7 +113,7 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		height: "100%",
-		paddingLeft: 20,
+		paddingLeft: 12,
 		color: globalStyles.inputPlaceholderColor,
 	},
 	inputFocused: {

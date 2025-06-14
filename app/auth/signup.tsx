@@ -1,13 +1,45 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import { globalStyles } from "@/constants/styles";
+import { UserSignUp } from "@/models/user";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import {
+	Image,
+	KeyboardAvoidingView,
+	Pressable,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function SignIn() {
+export default function SignUp() {
 	const router = useRouter();
+
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+	const [formData, setFormData] = useState<UserSignUp>({
+		username: "",
+		password: "",
+		email: "",
+	});
+
+	const handlePasswordVisibility = () => {
+		setIsPasswordVisible((prev) => !prev);
+	};
+
+	const handleInputChange = (text: string, inputKey: string) => {
+		setFormData((prev) => ({ ...prev, [inputKey]: text }));
+	};
+
+	const handleSignUp = () => {
+		router.push({
+			pathname: "/auth/complete",
+			params: {},
+		});
+	};
 
 	return (
 		<SafeAreaView style={styles.screen}>
@@ -16,21 +48,41 @@ export default function SignIn() {
 				source={require("../../assets/images/gharr-logo.png")}
 			/>
 
-			<View>
+			<KeyboardAvoidingView>
 				<Text style={styles.title}>Sign Up</Text>
 
-				<Input label="Username" type="name" icon="person-outline" />
+				<Input
+					label="Username"
+					placeholder="Username"
+					type="name"
+					icon="person-outline"
+					value={formData.username}
+					onChangeText={(text) => handleInputChange(text, "username")}
+				/>
 
 				<Input
 					label="Password"
-					type="password"
+					placeholder="Password"
+					type={isPasswordVisible ? "newPassword" : "password"}
 					icon="key-outline"
-					rightIcon="eye-off-outline"
+					rightIcon={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
+					value={formData.password}
+					onChangeText={(text) => handleInputChange(text, "password")}
+					onRightIconClick={handlePasswordVisibility}
 				/>
 
-				<Input label="Email Address" type="emailAddress" icon="mail-outline" />
+				<Input
+					label="Email Address"
+					placeholder="Email Address"
+					type="emailAddress"
+					icon="mail-outline"
+					value={formData.email}
+					onChangeText={(text) => handleInputChange(text, "email")}
+				/>
 
-				<Button style={{ height: 46, marginBottom: 20 }}>Sign up</Button>
+				<Button style={{ height: 46, marginBottom: 20 }} onPress={handleSignUp}>
+					Sign up
+				</Button>
 
 				<Text style={styles.accountText}>
 					Don't have an account?{" "}
@@ -59,7 +111,7 @@ export default function SignIn() {
 						<Ionicons name="logo-facebook" size={20} color={"#616161"} />
 					</Pressable>
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		</SafeAreaView>
 	);
 }

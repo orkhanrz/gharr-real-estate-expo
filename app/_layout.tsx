@@ -16,7 +16,7 @@ export default function RootLayout() {
 				contentStyle: { backgroundColor: bgColor },
 			}}
 		>
-			<Stack.Screen name="boarding/:id" />
+			<Stack.Screen name="boarding/[id]" />
 		</Stack>
 	);
 }
