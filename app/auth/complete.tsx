@@ -95,6 +95,7 @@ export default function CompleteProfile() {
 						icon="person-outline"
 						name="fullname"
 						control={control}
+						containerStyles={styles.inputStyles}
 					/>
 
 					<Input
@@ -104,6 +105,7 @@ export default function CompleteProfile() {
 						icon="phone-portrait-outline"
 						name="phoneNumber"
 						control={control}
+						containerStyles={styles.inputStyles}
 					/>
 
 					<Select
@@ -113,6 +115,7 @@ export default function CompleteProfile() {
 						data={countries}
 						name="country"
 						control={control}
+						containerStyles={styles.inputStyles}
 					/>
 
 					<Button
@@ -140,6 +143,9 @@ const styles = StyleSheet.create({
 		fontSize: 26,
 		fontWeight: 600,
 		marginBottom: 8,
+	},
+	inputStyles: {
+		marginBottom: 20,
 	},
 	screenText: {
 		color: "#616161",

@@ -21,7 +21,7 @@ export default function MainLayout() {
 				name="home"
 				options={{
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="home-outline" size={size} color={color} />
+						<Ionicons name="home" size={size} color={color} />
 					),
 				}}
 			/>

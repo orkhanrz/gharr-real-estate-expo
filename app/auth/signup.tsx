@@ -58,6 +58,7 @@ export default function SignUp() {
 					icon="person-outline"
 					name="username"
 					control={control}
+					containerStyles={styles.inputStyles}
 				/>
 
 				<Input
@@ -69,6 +70,7 @@ export default function SignUp() {
 					onRightIconClick={handlePasswordVisibility}
 					name="password"
 					control={control}
+					containerStyles={styles.inputStyles}
 				/>
 
 				<Input
@@ -78,6 +80,7 @@ export default function SignUp() {
 					icon="mail-outline"
 					name="email"
 					control={control}
+					containerStyles={styles.inputStyles}
 				/>
 
 				<Button
@@ -132,6 +135,9 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		fontWeight: 600,
+		marginBottom: 20,
+	},
+	inputStyles: {
 		marginBottom: 20,
 	},
 	accountText: {

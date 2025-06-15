@@ -14,4 +14,7 @@ export const globalStyles = {
 	inputLabelColor: "#091130",
 	tabBarActiveIconColor: "#3C94FF",
 	tabBarInactiveIconColor: "#8895A7",
+	categoryItemColor: "#F1F2F4",
+	categoryItemActiveColor: "#E5F1FF",
+	categoryItemTextColor: "#314865",
 };

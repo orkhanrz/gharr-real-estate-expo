@@ -44,21 +44,23 @@ export default function SignIn() {
 				<Input
 					label="Username"
 					placeholder="Username"
+					name="username"
+					control={control}
 					type="name"
 					icon="person-outline"
-					control={control}
-					name="username"
+					containerStyles={styles.inputStyles}
 				/>
 
 				<Input
 					label="Password"
 					placeholder="Password"
+					name="password"
+					control={control}
 					type={isPasswordVisible ? "newPassword" : "password"}
 					icon="key-outline"
+					containerStyles={styles.inputStyles}
 					rightIcon={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
 					onRightIconClick={handlePasswordVisibility}
-					control={control}
-					name="password"
 				/>
 
 				<Button
@@ -113,6 +115,9 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		fontWeight: 600,
+		marginBottom: 20,
+	},
+	inputStyles: {
 		marginBottom: 20,
 	},
 	accountText: {

@@ -2,16 +2,25 @@ import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
+import {
+	StyleProp,
+	StyleSheet,
+	Text,
+	TextInput,
+	TextInputProps,
+	View,
+	ViewStyle,
+} from "react-native";
 
 type Props<T extends FieldValues> = {
 	control: Control<T>;
 	name: Path<T>;
-	label: string;
+	label?: string;
 	placeholder?: string;
 	type?: TextInputProps["textContentType"];
 	icon?: keyof typeof Ionicons.glyphMap;
 	rightIcon?: keyof typeof Ionicons.glyphMap;
+	containerStyles?: StyleProp<ViewStyle>;
 	onRightIconClick?: () => void;
 };
 
@@ -23,6 +32,7 @@ export default function Input<T extends FieldValues>({
 	type,
 	icon,
 	rightIcon,
+	containerStyles,
 	onRightIconClick,
 }: Props<T>) {
 	const {
@@ -42,8 +52,8 @@ export default function Input<T extends FieldValues>({
 	};
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.label}>{label}</Text>
+		<View style={containerStyles}>
+			{label && <Text style={styles.label}>{label}</Text>}
 
 			<View
 				style={[
@@ -64,6 +74,7 @@ export default function Input<T extends FieldValues>({
 						}
 					/>
 				)}
+
 				<TextInput
 					style={[styles.input, isFocused && styles.inputFocused]}
 					secureTextEntry={type === "password"}
@@ -75,6 +86,7 @@ export default function Input<T extends FieldValues>({
 					onFocus={handleFocus}
 					onChangeText={field.onChange}
 				/>
+
 				{rightIcon && (
 					<Ionicons
 						style={styles.rightIcon}
@@ -96,9 +108,6 @@ export default function Input<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
-	container: {
-		marginBottom: 20,
-	},
 	label: {
 		fontSize: 14,
 		fontWeight: 500,
@@ -122,8 +131,8 @@ const styles = StyleSheet.create({
 	},
 	errorText: {
 		fontSize: 14,
-		marginTop: 5,
 		color: globalStyles.redColor,
+		marginTop: 5,
 	},
 	icon: {
 		paddingLeft: 20,

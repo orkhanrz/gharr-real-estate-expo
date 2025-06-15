@@ -2,7 +2,16 @@ import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+	FlatList,
+	Pressable,
+	StyleProp,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+	ViewStyle,
+} from "react-native";
 
 type Data = {
 	label: string;
@@ -16,6 +25,7 @@ type Props<T extends FieldValues> = {
 	data: Data[];
 	name: Path<T>;
 	control: Control<T>;
+	containerStyles?: StyleProp<ViewStyle>;
 };
 
 type ItemProps = {
@@ -42,6 +52,7 @@ export default function Select<T extends FieldValues>({
 	data,
 	control,
 	name,
+	containerStyles,
 }: Props<T>) {
 	const [isFocused, setIsFocused] = useState(false);
 
@@ -62,7 +73,7 @@ export default function Select<T extends FieldValues>({
 	const selectedLabel = data.find((item: Data) => item.value == value)?.label;
 
 	return (
-		<View style={styles.container}>
+		<View style={containerStyles}>
 			<Text style={styles.label}>{label}</Text>
 
 			<View
@@ -123,9 +134,6 @@ export default function Select<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
-	container: {
-		marginBottom: 20,
-	},
 	label: {
 		fontSize: 14,
 		fontWeight: 500,
