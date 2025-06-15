@@ -1,18 +1,13 @@
-import CategoriesList from "@/components/CategoriesList";
-import SearchInput from "@/components/UI/SearchInput";
+import CategoriesList from "@/components/categories-list";
+import PropertiesExtraList from "@/components/properties/properties-extra-list";
+import PropertiesList from "@/components/properties/properties-list";
+import SearchInput from "@/components/UI/search-input";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const categories = [
-	{ id: 1, label: "Recommended" },
-	{ id: 2, label: "Top Rates" },
-	{ id: 3, label: "Best Offers" },
-	{ id: 4, label: "Most Recent" },
-];
-
 export default function Home() {
 	return (
-		<SafeAreaView style={styles.screen}>
+		<SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
 			<ScrollView alwaysBounceVertical={false}>
 				<View style={styles.screenTop}>
 					<View style={styles.screentTopLeft}>
@@ -21,14 +16,36 @@ export default function Home() {
 					</View>
 
 					<Image
-						source={require("../../assets/images/profile-img.jpg")}
+						source={require("@/assets/images/profile-img.jpg")}
 						style={styles.screenTopImage}
 					/>
 				</View>
 
-				<SearchInput />
+				<View style={styles.inputWrapper}>
+					<SearchInput
+						placeholder="Search by Address, City, or ZIP"
+						icon="search"
+					/>
+				</View>
 
-				<CategoriesList items={categories} />
+				<View>
+					<CategoriesList styles={styles.categories} />
+				</View>
+
+				<View>
+					<PropertiesList styles={styles.properties} />
+				</View>
+
+				<View style={styles.near}>
+					<View style={styles.nearHeader}>
+						<Text style={styles.nearYou}>Near You</Text>
+						<Text style={styles.nearMore}>More</Text>
+					</View>
+
+					<View>
+						<PropertiesExtraList styles={styles.propertiesExtra} />
+					</View>
+				</View>
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -37,10 +54,9 @@ export default function Home() {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-
-		paddingTop: 24,
 	},
 	screenTop: {
+		paddingTop: 24,
 		paddingHorizontal: 30,
 		flexDirection: "row",
 		alignItems: "center",
@@ -63,5 +79,43 @@ const styles = StyleSheet.create({
 		height: 50,
 		borderRadius: 50,
 		objectFit: "cover",
+	},
+	inputWrapper: {
+		paddingHorizontal: 30,
+		marginBottom: 24,
+	},
+	categories: {
+		gap: 10,
+		marginBottom: 24,
+		paddingHorizontal: 30,
+	},
+	properties: {
+		gap: 18,
+		paddingHorizontal: 30,
+		marginBottom: 24,
+	},
+	near: {
+		paddingHorizontal: 30,
+		marginBottom: 10,
+	},
+	nearHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginBottom: 18,
+	},
+	nearYou: {
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "#122D4D",
+	},
+	nearMore: {
+		fontSize: 12,
+		color: "#989898",
+		fontWeight: "bold",
+	},
+	propertiesExtra: {
+		gap: 10,
+		flex: 1,
 	},
 });

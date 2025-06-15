@@ -1,5 +1,5 @@
-import Button from "@/components/UI/Button";
-import Input from "@/components/UI/Input";
+import Button from "@/components/UI/button";
+import Input from "@/components/UI/input";
 import { signUpDefaultValues, signUpValidationSchema } from "@/constants/auth";
 import { globalStyles } from "@/constants/styles";
 import { UserSignUp } from "@/models/user";
@@ -45,7 +45,7 @@ export default function SignUp() {
 		<SafeAreaView style={styles.screen}>
 			<Image
 				style={styles.image}
-				source={require("../../assets/images/gharr-logo.png")}
+				source={require("@/assets/images/gharr-logo.png")}
 			/>
 
 			<KeyboardAvoidingView>

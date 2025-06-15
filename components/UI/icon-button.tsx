@@ -23,5 +23,10 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		justifyContent: "center",
 		alignItems: "center",
+		elevation: 2,
+		shadowColor: globalStyles.blackColor,
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		shadowOffset: { width: 0, height: 4 },
 	},
 });

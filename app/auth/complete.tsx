@@ -1,6 +1,6 @@
-import Button from "@/components/UI/Button";
-import Input from "@/components/UI/Input";
-import Select from "@/components/UI/Select";
+import Button from "@/components/UI/button";
+import Input from "@/components/UI/input";
+import Select from "@/components/UI/select";
 import {
 	completeSignUpDefaultValues,
 	completeSignUpValidationSchema,

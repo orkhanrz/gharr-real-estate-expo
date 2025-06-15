@@ -1,4 +1,4 @@
-import NavigationBar from "@/components/UI/NavigationBar";
+import NavigationBar from "@/components/UI/navigation-bar";
 import { globalStyles } from "@/constants/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
@@ -58,7 +58,7 @@ const boardingPages = [
 				ease.
 			</Text>
 		),
-		image: require("../../assets/images/boarding-1.png"),
+		image: require("@/assets/images/boarding-1.png"),
 	},
 	{
 		id: 2,
@@ -73,7 +73,7 @@ const boardingPages = [
 				accessible.
 			</Text>
 		),
-		image: require("../../assets/images/boarding-2.png"),
+		image: require("@/assets/images/boarding-2.png"),
 	},
 	{
 		id: 3,
@@ -88,7 +88,7 @@ const boardingPages = [
 				life.
 			</Text>
 		),
-		image: require("../../assets/images/boarding-3.png"),
+		image: require("@/assets/images/boarding-3.png"),
 	},
 ];
 

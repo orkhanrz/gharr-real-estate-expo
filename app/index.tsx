@@ -1,4 +1,4 @@
-import Button from "@/components/UI/Button";
+import Button from "@/components/UI/button";
 import { useRouter } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -10,7 +10,7 @@ export default function Index() {
 			<View style={styles.imageContainer}>
 				<Image
 					style={styles.image}
-					source={require("../assets/images/splash-screen-img.png")}
+					source={require("@/assets/images/splash-screen-img.png")}
 				/>
 			</View>
 
@@ -18,7 +18,7 @@ export default function Index() {
 				<View style={styles.logoContainer}>
 					<Image
 						style={styles.image}
-						source={require("../assets/images/gharr-logo.png")}
+						source={require("@/assets/images/gharr-logo.png")}
 					/>
 				</View>
 

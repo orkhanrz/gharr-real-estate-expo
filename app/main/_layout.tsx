@@ -1,5 +1,5 @@
+import TabBarIcon from "@/components/UI/tab-bar-icon";
 import { globalStyles } from "@/constants/styles";
-import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 
 export default function MainLayout() {
@@ -7,11 +7,13 @@ export default function MainLayout() {
 		<Tabs
 			screenOptions={{
 				headerShown: false,
+				tabBarShowLabel: false,
 				sceneStyle: {
 					backgroundColor: globalStyles.lightBgColor,
 				},
 				tabBarStyle: {
 					backgroundColor: globalStyles.whiteColor,
+					height: 63,
 				},
 				tabBarActiveTintColor: globalStyles.tabBarActiveIconColor,
 				tabBarInactiveTintColor: globalStyles.tabBarInactiveIconColor,
@@ -20,32 +22,52 @@ export default function MainLayout() {
 			<Tabs.Screen
 				name="home"
 				options={{
-					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="home" size={size} color={color} />
+					tabBarIcon: ({ color, size, focused }) => (
+						<TabBarIcon
+							name="home"
+							size={20}
+							color={color}
+							focused={focused}
+						/>
 					),
 				}}
 			/>
 			<Tabs.Screen
 				name="location"
 				options={{
-					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="location-outline" size={size} color={color} />
+					tabBarIcon: ({ color, size, focused }) => (
+						<TabBarIcon
+							name="location-outline"
+							size={20}
+							color={color}
+							focused={focused}
+						/>
 					),
 				}}
 			/>
 			<Tabs.Screen
 				name="favorites"
 				options={{
-					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="heart-outline" size={size} color={color} />
+					tabBarIcon: ({ color, size, focused }) => (
+						<TabBarIcon
+							name="heart-outline"
+							size={20}
+							color={color}
+							focused={focused}
+						/>
 					),
 				}}
 			/>
 			<Tabs.Screen
 				name="profile"
 				options={{
-					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="person-outline" size={size} color={color} />
+					tabBarIcon: ({ color, size, focused }) => (
+						<TabBarIcon
+							name="person-outline"
+							size={20}
+							color={color}
+							focused={focused}
+						/>
 					),
 				}}
 			/>
