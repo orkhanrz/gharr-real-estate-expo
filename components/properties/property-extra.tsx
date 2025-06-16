@@ -1,10 +1,10 @@
 import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 type Props = {
 	id: number;
-	image: ImageSourcePropType;
+	image: string;
 	rating: number;
 	category: string;
 	title: string;
@@ -27,7 +27,7 @@ export default function PropertyExtra({
 }: Props) {
 	return (
 		<View style={styles.container}>
-			<Image style={styles.image} source={image} />
+			<Image style={styles.image} source={{ uri: image }} />
 
 			<View style={styles.info}>
 				<View style={styles.infoTop}>

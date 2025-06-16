@@ -2,7 +2,6 @@ import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 import {
 	Image,
-	ImageSourcePropType,
 	Pressable,
 	StyleProp,
 	StyleSheet,
@@ -14,9 +13,10 @@ import {
 type Props = {
 	id: number;
 	title: string;
-	image: ImageSourcePropType;
+	image: string;
 	price: number;
 	address: string;
+	small?: boolean;
 	containerStyles?: StyleProp<ViewStyle>;
 };
 
@@ -26,26 +26,40 @@ export default function Property({
 	image,
 	price,
 	address,
+	small,
 	containerStyles,
 }: Props) {
 	return (
 		<View style={[styles.container, containerStyles]}>
-			<Image style={styles.image} source={image} />
+			<Image
+				style={[styles.image, small && styles.imageSmall]}
+				source={{ uri: image }}
+			/>
 
-			<View style={styles.infoContainer}>
-				<Text style={styles.title}>{title}</Text>
+			<View style={[styles.infoContainer, small && styles.infoContainerSmall]}>
+				<Text style={[styles.title, small && styles.titleSmall]}>{title}</Text>
 
 				<View style={styles.infoInnerContainer}>
 					<View style={styles.info}>
-						<Text style={styles.price}>${price}/month</Text>
+						<Text style={[styles.price, small && styles.priceSmall]}>
+							${price}/month
+						</Text>
 						<View style={styles.addressWrapper}>
-							<Ionicons name="location" size={12} color={"#B9B9B9"} />
-							<Text style={styles.address}>{address}</Text>
+							<Ionicons
+								name="location"
+								size={small ? 8 : 12}
+								color={"#B9B9B9"}
+							/>
+							<Text style={[styles.address, small && styles.addressSmall]}>
+								{address}
+							</Text>
 						</View>
 					</View>
 
-					<Pressable style={styles.infoButton}>
-						<Ionicons name="heart" size={12} color={"#0066FF"} />
+					<Pressable
+						style={[styles.infoButton, small && styles.infoButtonSmall]}
+					>
+						<Ionicons name="heart" size={small ? 10 : 12} color={"#0066FF"} />
 					</Pressable>
 				</View>
 			</View>
@@ -56,7 +70,6 @@ export default function Property({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		height: 242,
 		borderRadius: 15,
 		backgroundColor: globalStyles.whiteColor,
 		elevation: 1,
@@ -71,31 +84,44 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		marginBottom: 13,
 	},
+	imageSmall: {
+		height: 105,
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0,
+		marginBottom: 8,
+	},
 	title: {
 		fontSize: 15,
 		fontWeight: "bold",
 		marginBottom: 9,
 	},
+	titleSmall: {
+		fontSize: 12,
+		marginBottom: 8,
+	},
 	infoContainer: {
 		paddingHorizontal: 10,
+		paddingBottom: 15,
+	},
+	infoContainerSmall: {
+		paddingBottom: 8,
 	},
 	infoInnerContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 	},
 	info: {},
-	infoButton: {
-		width: 32,
-		height: 32,
-		backgroundColor: "#E5F0FF",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 12,
+	priceSmall: {
+		fontSize: 9,
+		marginBottom: 4,
 	},
 	price: {
 		fontSize: 11,
 		marginBottom: 9,
 		color: "#0066FF",
+	},
+	addressSmall: {
+		fontSize: 8,
 	},
 	addressWrapper: {
 		flexDirection: "row",
@@ -104,5 +130,17 @@ const styles = StyleSheet.create({
 	address: {
 		color: "#B9B9B9",
 		fontSize: 11,
+	},
+	infoButton: {
+		width: 32,
+		height: 32,
+		backgroundColor: "#E5F0FF",
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 12,
+	},
+	infoButtonSmall: {
+		width: 22,
+		height: 22,
 	},
 });

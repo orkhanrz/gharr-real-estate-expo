@@ -2,36 +2,60 @@ import CategoriesList from "@/components/categories-list";
 import PropertiesExtraList from "@/components/properties/properties-extra-list";
 import PropertiesList from "@/components/properties/properties-list";
 import SearchInput from "@/components/UI/search-input";
+import { globalStyles } from "@/constants/styles";
+import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
 	const [isSearchEnabled, setIsSearchEnabled] = useState(false);
 
-	const toggleSearch = () => {
-		setIsSearchEnabled((prev) => !prev);
+	const enableSearch = () => {
+		setIsSearchEnabled(true);
+	};
+
+	const disableSearch = () => {
+		setIsSearchEnabled(false);
 	};
 
 	return (
 		<SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
 			<ScrollView alwaysBounceVertical={false}>
-				<View style={styles.screenTop}>
-					<View style={styles.screentTopLeft}>
-						<Text style={styles.screenTopLeftTitle}>Let's Find your</Text>
-						<Text style={styles.screenTopLeftSpecialText}>Favorite Home</Text>
-					</View>
+				{isSearchEnabled ? (
+					<View style={styles.screenTopSearch}>
+						<Pressable
+							onPress={disableSearch}
+							style={styles.screenTopSearchIcon}
+						>
+							<Ionicons
+								name="arrow-back"
+								color={globalStyles.blackColor}
+								size={24}
+							/>
+						</Pressable>
 
-					<Image
-						source={require("@/assets/images/profile-img.jpg")}
-						style={styles.screenTopImage}
-					/>
-				</View>
+						<Text style={styles.screenTopSearchTitle}>Search</Text>
+					</View>
+				) : (
+					<View style={styles.screenTop}>
+						<View style={styles.screentTopLeft}>
+							<Text style={styles.screenTopLeftTitle}>Let's Find your</Text>
+							<Text style={styles.screenTopLeftSpecialText}>
+								Favorite Home
+							</Text>
+						</View>
+
+						<Image
+							source={require("@/assets/images/profile-img.jpg")}
+							style={styles.screenTopImage}
+						/>
+					</View>
+				)}
 
 				<View style={styles.inputWrapper}>
 					<SearchInput
-						onPress={toggleSearch}
-						onBlur={toggleSearch}
+						onPress={enableSearch}
 						placeholder="Search by Address, City, or ZIP"
 						icon="search"
 					/>
@@ -40,9 +64,9 @@ export default function Home() {
 				{isSearchEnabled ? (
 					<View>
 						<PropertiesList
-							direction="vertical"
 							scrollEnabled={false}
 							styles={styles.properties}
+							columnGap={18}
 							columns={2}
 						/>
 					</View>
@@ -65,10 +89,10 @@ export default function Home() {
 								<Text style={styles.nearYou}>Near You</Text>
 								<Text style={styles.nearMore}>More</Text>
 							</View>
+						</View>
 
-							<View>
-								<PropertiesExtraList styles={styles.propertiesExtra} />
-							</View>
+						<View>
+							<PropertiesExtraList styles={styles.propertiesExtra} />
 						</View>
 					</View>
 				)}
@@ -81,8 +105,29 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 	},
+	screenTopSearch: {
+		marginTop: 24,
+		flexDirection: "row",
+		alignItems: "center",
+		paddingHorizontal: 30,
+		marginBottom: 21,
+		position: "relative",
+	},
+	screenTopSearchIcon: {
+		position: "absolute",
+		left: 30,
+		zIndex: 100,
+		padding: 10,
+	},
+	screenTopSearchTitle: {
+		color: "#122D4D",
+		fontSize: 18,
+		fontWeight: 700,
+		flex: 1,
+		textAlign: "center",
+	},
 	screenTop: {
-		paddingTop: 24,
+		marginTop: 24,
 		paddingHorizontal: 30,
 		flexDirection: "row",
 		alignItems: "center",
@@ -142,6 +187,7 @@ const styles = StyleSheet.create({
 	},
 	propertiesExtra: {
 		gap: 10,
-		flex: 1,
+		paddingHorizontal: 30,
+		marginBottom: 10,
 	},
 });

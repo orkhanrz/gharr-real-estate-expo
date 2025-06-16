@@ -1,52 +1,11 @@
+import { properties } from "@/constants/data";
 import { FlatList, StyleProp, ViewStyle } from "react-native";
 import Property from "./property";
-
-const properties = [
-	{
-		id: 1,
-		image: require("@/assets/images/house.jpg"),
-		title: "Lorem House",
-		price: 340,
-		address: "Avenue, West Side",
-		isFavorite: false,
-	},
-	{
-		id: 2,
-		image: require("@/assets/images/house.jpg"),
-		title: "Lorem House",
-		price: 340,
-		address: "Avenue, West Side",
-		isFavorite: false,
-	},
-	{
-		id: 3,
-		image: require("@/assets/images/house.jpg"),
-		title: "Lorem House",
-		price: 340,
-		address: "Avenue, West Side",
-		isFavorite: false,
-	},
-	{
-		id: 4,
-		image: require("@/assets/images/house.jpg"),
-		title: "Lorem House",
-		price: 340,
-		address: "Avenue, West Side",
-		isFavorite: false,
-	},
-	{
-		id: 5,
-		image: require("@/assets/images/house.jpg"),
-		title: "Lorem House",
-		price: 340,
-		address: "Avenue, West Side",
-		isFavorite: false,
-	},
-];
 
 type Props = {
 	styles?: StyleProp<ViewStyle>;
 	propertyStyles?: StyleProp<ViewStyle>;
+	columnGap?: number;
 	columns?: number;
 	scrollEnabled?: boolean;
 	direction?: "horizontal" | "vertical";
@@ -55,6 +14,7 @@ type Props = {
 export default function PropertiesList({
 	styles,
 	propertyStyles,
+	columnGap = 0,
 	scrollEnabled = true,
 	direction = "vertical",
 	columns = 1,
@@ -67,14 +27,26 @@ export default function PropertiesList({
 			contentContainerStyle={styles}
 			data={properties}
 			numColumns={columns}
-			renderItem={({ item }) => (
+			renderItem={({ item, index }) => (
 				<Property
 					id={item.id}
 					title={item.title}
 					price={item.price}
 					address={item.address}
 					image={item.image}
-					containerStyles={propertyStyles}
+					small={columns > 1}
+					containerStyles={[
+						propertyStyles,
+						{
+							marginRight:
+								columns &&
+								columnGap &&
+								index != properties.length - 1 &&
+								index % columns == 0
+									? columnGap
+									: 0,
+						},
+					]}
 				/>
 			)}
 			keyExtractor={({ id }) => id.toString()}
