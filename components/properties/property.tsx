@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 type Props = {
+	id: number;
 	title: string;
 	image: ImageSourcePropType;
 	price: number;
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export default function Property({
+	id,
 	title,
 	image,
 	price,
@@ -53,7 +55,7 @@ export default function Property({
 
 const styles = StyleSheet.create({
 	container: {
-		width: 223,
+		flex: 1,
 		height: 242,
 		borderRadius: 15,
 		backgroundColor: globalStyles.whiteColor,

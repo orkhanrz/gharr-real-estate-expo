@@ -6,9 +6,11 @@ import IconButton from "./icon-button";
 type Props = {
 	placeholder?: string;
 	icon?: keyof typeof Ionicons.glyphMap;
+	onPress?: () => void;
+	onBlur?: () => void;
 };
 
-export default function SearchInput({ placeholder, icon }: Props) {
+export default function SearchInput({ placeholder, icon, onPress, onBlur }: Props) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.inputContainer}>
@@ -21,7 +23,12 @@ export default function SearchInput({ placeholder, icon }: Props) {
 					/>
 				)}
 
-				<TextInput style={styles.input} placeholder={placeholder} />
+				<TextInput
+					style={styles.input}
+					placeholder={placeholder}
+					onPress={onPress}
+					onBlur={onBlur}
+				/>
 			</View>
 
 			<IconButton icon="filter" />

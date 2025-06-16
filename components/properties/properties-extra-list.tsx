@@ -68,6 +68,7 @@ export default function PropertiesExtraList({ styles }: Props) {
 		<FlatList
 			contentContainerStyle={styles}
 			data={properties}
+			scrollEnabled={false}
 			renderItem={({ item }) => (
 				<PropertyExtra
 					id={item.id}
@@ -79,7 +80,6 @@ export default function PropertiesExtraList({ styles }: Props) {
 					rating={item.rating}
 					reviews={item.reviews}
 					title={item.title}
-					key={item.id}
 				/>
 			)}
 			keyExtractor={({ id }) => id.toString()}

@@ -30,12 +30,11 @@ export default function CategoriesList({ styles }: Props) {
 				<CategoryItem
 					active={activeId == item.id}
 					id={item.id}
-					key={item.id}
 					label={item.label}
 					onSelect={handleSelect}
 				/>
 			)}
 			keyExtractor={({ id }) => id.toString()}
-		></FlatList>
+		/>
 	);
 }

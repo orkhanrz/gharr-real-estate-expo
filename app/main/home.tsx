@@ -2,10 +2,17 @@ import CategoriesList from "@/components/categories-list";
 import PropertiesExtraList from "@/components/properties/properties-extra-list";
 import PropertiesList from "@/components/properties/properties-list";
 import SearchInput from "@/components/UI/search-input";
+import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
+	const [isSearchEnabled, setIsSearchEnabled] = useState(false);
+
+	const toggleSearch = () => {
+		setIsSearchEnabled((prev) => !prev);
+	};
+
 	return (
 		<SafeAreaView style={styles.screen} edges={["top", "left", "right"]}>
 			<ScrollView alwaysBounceVertical={false}>
@@ -23,29 +30,48 @@ export default function Home() {
 
 				<View style={styles.inputWrapper}>
 					<SearchInput
+						onPress={toggleSearch}
+						onBlur={toggleSearch}
 						placeholder="Search by Address, City, or ZIP"
 						icon="search"
 					/>
 				</View>
 
-				<View>
-					<CategoriesList styles={styles.categories} />
-				</View>
-
-				<View>
-					<PropertiesList styles={styles.properties} />
-				</View>
-
-				<View style={styles.near}>
-					<View style={styles.nearHeader}>
-						<Text style={styles.nearYou}>Near You</Text>
-						<Text style={styles.nearMore}>More</Text>
-					</View>
-
+				{isSearchEnabled ? (
 					<View>
-						<PropertiesExtraList styles={styles.propertiesExtra} />
+						<PropertiesList
+							direction="vertical"
+							scrollEnabled={false}
+							styles={styles.properties}
+							columns={2}
+						/>
 					</View>
-				</View>
+				) : (
+					<View>
+						<View>
+							<CategoriesList styles={styles.categories} />
+						</View>
+
+						<View>
+							<PropertiesList
+								propertyStyles={{ width: 223 }}
+								styles={styles.properties}
+								direction="horizontal"
+							/>
+						</View>
+
+						<View style={styles.near}>
+							<View style={styles.nearHeader}>
+								<Text style={styles.nearYou}>Near You</Text>
+								<Text style={styles.nearMore}>More</Text>
+							</View>
+
+							<View>
+								<PropertiesExtraList styles={styles.propertiesExtra} />
+							</View>
+						</View>
+					</View>
+				)}
 			</ScrollView>
 		</SafeAreaView>
 	);
@@ -90,9 +116,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 30,
 	},
 	properties: {
-		gap: 18,
 		paddingHorizontal: 30,
 		marginBottom: 24,
+		gap: 16,
 	},
 	near: {
 		paddingHorizontal: 30,

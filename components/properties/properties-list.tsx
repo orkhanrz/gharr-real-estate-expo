@@ -46,24 +46,38 @@ const properties = [
 
 type Props = {
 	styles?: StyleProp<ViewStyle>;
+	propertyStyles?: StyleProp<ViewStyle>;
+	columns?: number;
+	scrollEnabled?: boolean;
+	direction?: "horizontal" | "vertical";
 };
 
-export default function PropertiesList({ styles }: Props) {
+export default function PropertiesList({
+	styles,
+	propertyStyles,
+	scrollEnabled = true,
+	direction = "vertical",
+	columns = 1,
+}: Props) {
 	return (
 		<FlatList
-			horizontal
+			horizontal={direction == "horizontal"}
 			showsHorizontalScrollIndicator={false}
+			scrollEnabled={scrollEnabled}
 			contentContainerStyle={styles}
 			data={properties}
+			numColumns={columns}
 			renderItem={({ item }) => (
 				<Property
-					key={item.id}
+					id={item.id}
 					title={item.title}
 					price={item.price}
 					address={item.address}
 					image={item.image}
+					containerStyles={propertyStyles}
 				/>
 			)}
-		></FlatList>
+			keyExtractor={({ id }) => id.toString()}
+		/>
 	);
 }
