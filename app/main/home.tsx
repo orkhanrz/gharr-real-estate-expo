@@ -1,6 +1,6 @@
 import CategoriesList from "@/components/categories-list";
-import Property from "@/components/properties/property";
-import PropertyExtra from "@/components/properties/property-extra";
+import Property from "@/components/property/property";
+import PropertyDetailed from "@/components/property/property-detailed";
 import { GridList } from "@/components/UI/grid-list";
 import SearchInput from "@/components/UI/search-input";
 import { properties } from "@/constants/data";
@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Home() {
+export default function HomeScreen() {
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
 
   const enableSearch = () => {
@@ -79,7 +79,7 @@ export default function Home() {
                 image={item.image}
                 title={item.title}
                 price={item.price}
-                address={item.address}
+                address={item.location.address}
                 small={true}
               />
             )}
@@ -103,7 +103,7 @@ export default function Home() {
                   image={item.image}
                   title={item.title}
                   price={item.price}
-                  address={item.address}
+                  address={item.location.address}
                   containerStyles={{ width: 223 }}
                 />
               )}
@@ -122,9 +122,9 @@ export default function Home() {
             <GridList
               data={properties}
               renderItem={(item) => (
-                <PropertyExtra
+                <PropertyDetailed
                   id={item.id}
-                  address={item.address}
+                  address={item.location.address}
                   category={item.category}
                   comfort={item.comfort}
                   image={item.image}

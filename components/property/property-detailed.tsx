@@ -15,7 +15,7 @@ type Props = {
   price: number;
 };
 
-export default function PropertyExtra({
+export default function PropertyDetailed({
   id,
   image,
   rating,

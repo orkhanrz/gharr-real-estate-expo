@@ -4,14 +4,14 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 type Props = {
   icon: keyof typeof Ionicons.glyphMap;
-  title?: string;
+  data?: number;
   text: string;
   containerStyles?: StyleProp<ViewStyle>;
 };
 
 export default function PropertyInfoItem({
   icon,
-  title,
+  data,
   text,
   containerStyles
 }: Props) {
@@ -23,7 +23,7 @@ export default function PropertyInfoItem({
         color={globalStyles.primaryColor}
         style={styles.icon}
       />
-      {title && <Text style={styles.title}>{title}</Text>}
+      {data && <Text style={styles.title}>{data}</Text>}
       <Text style={styles.text}>{text}</Text>
     </View>
   );

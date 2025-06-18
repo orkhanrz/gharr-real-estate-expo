@@ -15,10 +15,6 @@ export default function RootLayout() {
         headerShown: false,
         contentStyle: { backgroundColor: bgColor }
       }}
-    >
-      <Stack.Screen name="index" />
-      <Stack.Screen name="boarding/[id]" />
-      <Stack.Screen name="properties/[id]" />
-    </Stack>
+    />
   );
 }
