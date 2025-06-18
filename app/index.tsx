@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 	imageContainer: {
 		width: 600,
-		height: 700,
+		height: "80%",
 		transform: [{ rotate: "15deg" }, { translateY: "-20%" }, { translateX: "-15%" }],
 	},
 	image: {
