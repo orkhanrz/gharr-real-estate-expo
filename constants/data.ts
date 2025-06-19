@@ -94,7 +94,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Avenue, West Side",
       lat: 40.748817,
-      lng: -73.985428
+      lng: -73.985428,
+      city: "New York",
+      country: "United States"
     },
     images: [
       {
@@ -139,7 +141,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Hilltop Drive",
       lat: 37.774929,
-      lng: -122.419416
+      lng: -122.419416,
+      city: "San Francisco",
+      country: "United States"
     },
     images: [
       {
@@ -184,7 +188,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Main Street",
       lat: 34.052235,
-      lng: -118.243683
+      lng: -118.243683,
+      city: "Los Angeles",
+      country: "United States"
     },
     images: [
       {
@@ -225,7 +231,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Aspen Hills",
       lat: 39.191097,
-      lng: -106.817535
+      lng: -106.817535,
+      city: "Aspen",
+      country: "United States"
     },
     images: [
       {
@@ -262,7 +270,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Country Road",
       lat: 36.778259,
-      lng: -119.417931
+      lng: -119.417931,
+      city: "Sanger",
+      country: "United States"
     },
     images: [
       {
@@ -303,7 +313,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Ocean View",
       lat: 26.122439,
-      lng: -80.137317
+      lng: -80.137317,
+      city: "Fort Lauderdale",
+      country: "United States"
     },
     images: [
       {
@@ -346,7 +358,9 @@ export const properties: IProperty[] = [
     location: {
       address: "Sunset Blvd",
       lat: 34.098003,
-      lng: -118.361744
+      lng: -118.361744,
+      city: "Los Angeles",
+      country: "United States"
     },
     images: [
       {
@@ -366,7 +380,7 @@ export const properties: IProperty[] = [
   {
     id: "8",
     image:
-      "https://plus.unsplash.com/premium_photo-1661964203218-bf8778198314?w=500&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1596306499398-8d88944a5ec4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFrdXxlbnwwfHwwfHx8MA%3D%3D",
     title: "City Loft",
     price: 600,
     isFavorite: false,
@@ -383,20 +397,162 @@ export const properties: IProperty[] = [
     location: {
       address: "Downtown Core",
       lat: 43.653225,
-      lng: -79.383186
+      lng: -79.383186,
+      city: "New York",
+      country: "United States"
     },
     images: [
       {
         id: "f77e16f0-fab3-4d9e-9ff1-74ab7b8fb285",
-        url: "https://images.unsplash.com/photo-1599423300748-6f87e6e7e7b2?auto=format&fit=crop&w=800&q=80"
+        url: "https://images.unsplash.com/photo-1642856761437-5b5efcb36d81?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFrdXxlbnwwfHwwfHx8MA%3D%3D"
       },
       {
         id: "ee1647b5-e7eb-4147-97de-7b3dca8f6e83",
-        url: "https://images.unsplash.com/photo-1615873968403-89f2899a3e0e?auto=format&fit=crop&w=800&q=80"
+        url: "https://plus.unsplash.com/premium_photo-1731443614667-e924b1d926fe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YmFrdXxlbnwwfHwwfHx8MA%3D%3D"
       },
       {
         id: "f3ae89f2-a618-4cf3-80d3-5acb60b1e903",
-        url: "https://images.unsplash.com/photo-1599423300737-dc2cc3b8d6f3?auto=format&fit=crop&w=800&q=80"
+        url: "https://plus.unsplash.com/premium_photo-1674406481284-43eba097a291?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmFrdXxlbnwwfHwwfHx8MA%3D%3D"
+      }
+    ]
+  },
+  {
+    id: "9",
+    image:
+      "https://images.unsplash.com/photo-1607207685777-0986a1eede0e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJha3V8ZW58MHx8MHx8fDA%3D",
+    title: "Sea View Apartment",
+    price: 450,
+    isFavorite: false,
+    rating: 4.7,
+    category: "Apartment",
+    reviews: 1020,
+    comfort: 4.3,
+    sqft: 1100,
+    bedrooms: 3,
+    bathrooms: 2,
+    safetyRank: 4.5,
+    facilities: [facilities[1], facilities[4], facilities[7]],
+    agent: agents[2],
+    location: {
+      address: "Neftchilar Ave, Baku",
+      lat: 40.368901,
+      lng: 49.850948,
+      city: "Baku",
+      country: "Azerbaijan"
+    },
+    images: [
+      {
+        id: "img-baku-01",
+        url: "https://images.unsplash.com/photo-1589574390486-447216095288?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        id: "img-baku-02",
+        url: "https://images.unsplash.com/photo-1674857977971-131936c7b5ea?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YmFrdXxlbnwwfHwwfHx8MA%3D%3D"
+      }
+    ]
+  },
+  {
+    id: "10",
+    image:
+      "https://images.unsplash.com/photo-1622314621630-0d24bcb5aa67?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGJha3V8ZW58MHx8MHx8fDA%3D",
+    title: "Modern Family House",
+    price: 500,
+    isFavorite: false,
+    rating: 4.6,
+    category: "House",
+    reviews: 870,
+    comfort: 4.4,
+    sqft: 1600,
+    bedrooms: 4,
+    bathrooms: 3,
+    safetyRank: 4.6,
+    facilities: [facilities[0], facilities[2], facilities[5]],
+    agent: agents[5],
+    location: {
+      address: "20th January Street, Baku",
+      lat: 40.410047,
+      lng: 49.829998,
+      city: "Baku",
+      country: "Azerbaijan"
+    },
+    images: [
+      {
+        id: "img-baku-03",
+        url: "https://images.unsplash.com/photo-1716758406306-853301c13ece?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        id: "img-baku-04",
+        url: "https://images.unsplash.com/photo-1689189044045-7cb0767e5cf1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      }
+    ]
+  },
+  {
+    id: "11",
+    image:
+      "https://images.unsplash.com/photo-1614623796638-f6da34cd277c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGJha3V8ZW58MHx8MHx8fDA%3D",
+    title: "Luxury Downtown Condo",
+    price: 750,
+    isFavorite: false,
+    rating: 4.9,
+    category: "Condo",
+    reviews: 1450,
+    comfort: 4.9,
+    sqft: 1500,
+    bedrooms: 3,
+    bathrooms: 2,
+    safetyRank: 4.8,
+    facilities: [facilities[2], facilities[3], facilities[6]],
+    agent: agents[0],
+    location: {
+      address: "Fountains Square, Baku",
+      lat: 40.370321,
+      lng: 49.835342,
+      city: "Baku",
+      country: "Azerbaijan"
+    },
+    images: [
+      {
+        id: "img-baku-05",
+        url: "https://images.unsplash.com/photo-1642856567364-25d1af181b2b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        id: "img-baku-06",
+        url: "https://plus.unsplash.com/premium_photo-1672847847680-d49c4de1c43d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      }
+    ]
+  },
+  {
+    id: "12",
+    image:
+      "https://images.unsplash.com/photo-1704955568776-72d6d5b9af2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGJha3V8ZW58MHx8MHx8fDA%3D",
+    title: "Old City Studio",
+    price: 320,
+    isFavorite: false,
+    rating: 4.4,
+    category: "Studio",
+    reviews: 660,
+    comfort: 3.8,
+    sqft: 700,
+    bedrooms: 1,
+    bathrooms: 1,
+    safetyRank: 4.2,
+    facilities: [facilities[4], facilities[5]],
+    agent: agents[6],
+    location: {
+      address: "Icherisheher, Baku",
+      lat: 40.366944,
+      lng: 49.837222,
+      city: "Baku",
+      country: "Azerbaijan"
+    },
+    images: [
+      {
+        id: "img-baku-07",
+        url: "https://images.unsplash.com/photo-1681073192200-d03c98040144?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGJha3V8ZW58MHx8MHx8fDA%3D"
+      },
+      {
+        id: "img-baku-08",
+        url: "https://images.unsplash.com/photo-1627283699199-0ad75380faa7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fGJha3V8ZW58MHx8MHx8fDA%3D"
       }
     ]
   }

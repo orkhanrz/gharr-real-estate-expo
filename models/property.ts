@@ -9,9 +9,11 @@ export interface IFacility {
 }
 
 export interface ILocation {
-  address?: string;
+  address: string;
   lat: number;
   lng: number;
+  city: string;
+  country: string;
 }
 
 export interface IProperty {

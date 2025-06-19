@@ -2,7 +2,7 @@ import Map from "@/components/map";
 import IconButton from "@/components/UI/icon-button";
 import { properties } from "@/constants/data";
 import { globalStyles } from "@/constants/styles";
-import { ILocation } from "@/models/property";
+import { IProperty } from "@/models/property";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,7 +16,7 @@ export default function Location() {
     router.back();
   };
 
-  const coordinates = properties.find((p) => p.id == id)?.location as ILocation;
+  const property = properties.find((p) => p.id == id) as IProperty;
 
   return (
     <View style={styles.container}>
@@ -28,7 +28,7 @@ export default function Location() {
         onPress={goBack}
       />
 
-      <Map markers={[coordinates]} />
+      <Map properties={[property]} />
     </View>
   );
 }

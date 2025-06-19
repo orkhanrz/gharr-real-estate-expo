@@ -6,6 +6,7 @@ import SearchInput from "@/components/UI/search-input";
 import { properties } from "@/constants/data";
 import { globalStyles } from "@/constants/styles";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Image,
@@ -18,6 +19,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
 
   const enableSearch = () => {
@@ -26,6 +28,10 @@ export default function HomeScreen() {
 
   const disableSearch = () => {
     setIsSearchEnabled(false);
+  };
+
+  const navigateToProfile = () => {
+    router.push("/main/profile");
   };
 
   return (
@@ -53,10 +59,12 @@ export default function HomeScreen() {
               <Text style={styles.screenTopLeftSpecialText}>Favorite Home</Text>
             </View>
 
-            <Image
-              source={require("@/assets/images/profile-img.jpg")}
-              style={styles.screenTopImage}
-            />
+            <Pressable onPress={navigateToProfile}>
+              <Image
+                source={require("@/assets/images/profile-img.jpg")}
+                style={styles.screenTopImage}
+              />
+            </Pressable>
           </View>
         )}
 
