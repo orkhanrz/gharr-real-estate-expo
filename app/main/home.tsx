@@ -18,6 +18,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const categories = [
+  { id: 1, label: "Recommended" },
+  { id: 2, label: "Top Rates" },
+  { id: 3, label: "Best Offers" },
+  { id: 4, label: "Most Recent" }
+];
+
 export default function HomeScreen() {
   const router = useRouter();
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
@@ -98,7 +105,10 @@ export default function HomeScreen() {
           />
         ) : (
           <View>
-            <CategoriesList styles={styles.categories} />
+            <CategoriesList
+              categories={categories}
+              styles={styles.categories}
+            />
 
             <GridList
               direction="horizontal"

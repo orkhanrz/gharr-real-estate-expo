@@ -34,7 +34,7 @@ export default function MapScreen() {
         icon="arrow-back-outline"
         iconSize={24}
         iconColor={globalStyles.blackColor}
-        buttonStyles={[styles.navigationBtn, { marginTop: insets.top }]}
+        buttonStyles={[styles.navigationBtn]}
         onPress={goBack}
       />
 
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     backgroundColor: globalStyles.whiteColor,
     borderRadius: 50,
     position: "absolute",
-    left: 20,
+    left: 12,
+    top: 51,
     zIndex: 100
   }
 });
