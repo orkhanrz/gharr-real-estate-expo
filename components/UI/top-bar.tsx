@@ -19,25 +19,29 @@ export default function TopBar({
 }: Props) {
   return (
     <View style={[styles.topBar, styles.container]}>
-      {leftIcon && (
-        <Ionicons
-          name={leftIcon}
-          size={24}
-          color={globalStyles.blackColor}
-          onPress={onLeftIconPress}
-        />
-      )}
+      <View>
+        {leftIcon && (
+          <Ionicons
+            name={leftIcon}
+            size={24}
+            color={globalStyles.blackColor}
+            onPress={onLeftIconPress}
+          />
+        )}
+      </View>
 
       <Text style={styles.topBarTitle}>{text}</Text>
 
-      {rightIcon && (
-        <Ionicons
-          name={rightIcon}
-          size={24}
-          color={globalStyles.blackColor}
-          onPress={onRightIconPress}
-        />
-      )}
+      <View>
+        {rightIcon && (
+          <Ionicons
+            name={rightIcon}
+            size={24}
+            color={globalStyles.blackColor}
+            onPress={onRightIconPress}
+          />
+        )}
+      </View>
     </View>
   );
 }
