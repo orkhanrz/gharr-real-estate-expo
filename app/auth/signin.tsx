@@ -9,14 +9,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+	ActivityIndicator,
+	Image,
+	Pressable,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
 	const router = useRouter();
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-	const { mutate } = useSignIn();
+	const { mutate, isPending } = useSignIn();
 
 	const { control, handleSubmit } = useForm<UserSignIn>({
 		defaultValues: signInDefaultValues,
@@ -67,7 +74,11 @@ export default function SignIn() {
 					style={{ height: 46, marginBottom: 20 }}
 					onPress={handleSubmit(handleSignIn)}
 				>
-					Sign in
+					{isPending ? (
+						<ActivityIndicator size="small" color={"white"} />
+					) : (
+						"Sign in"
+					)}
 				</Button>
 
 				<Text style={styles.accountText}>
