@@ -34,18 +34,18 @@ export default function FavoritesScreen() {
           data={properties}
           renderItem={(item) => (
             <PropertyDetailed
-              id={item.id}
+              id={item._id}
               title={item.title}
               price={item.price}
               address={item.location.address}
-              image={item.image}
+              image={item.imageUrl}
               category={item.category}
               comfort={item.comfort}
               rating={item.rating}
               reviews={item.reviews}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </ScrollView>
     </SafeAreaView>

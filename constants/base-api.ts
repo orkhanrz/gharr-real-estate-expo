@@ -3,17 +3,19 @@ import axios from "axios";
 import { config } from "./config";
 
 const baseApi = axios.create({
-	baseURL: config.backendUrl,
+  baseURL: config.backendUrl
 });
 
 baseApi.interceptors.request.use(async (config) => {
-	const token = await getToken();
+  const token = await getToken();
 
-	console.log(token);
+  config.headers.Authorization = `Bearer ${token}`;
 
-	config.headers.Authorization = token;
+  return config;
+});
 
-	return config;
+baseApi.interceptors.response.use(null, (err) => {
+  console.log(err);
 });
 
 export default baseApi;

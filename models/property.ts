@@ -3,31 +3,31 @@ import { IAgent } from "./user";
 
 export interface IFacility {
   id: string;
-  label: string;
+  name: string;
   data?: number;
-  image: keyof typeof Ionicons.glyphMap;
+  icon: keyof typeof Ionicons.glyphMap;
 }
 
 export interface ILocation {
   address: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   city: string;
   country: string;
 }
 
 export interface IProperty {
-  id: string;
-  image: string;
+  _id: string;
+  imageUrl: string;
   title: string;
   price: number;
   isFavorite: boolean;
   rating: number;
   category: string;
-  reviews: number;
+  reviews: [];
   comfort: number;
   facilities: IFacility[];
-  sqft: number;
+  area: number;
   bedrooms: number;
   bathrooms: number;
   safetyRank: number;
@@ -37,6 +37,5 @@ export interface IProperty {
 }
 
 export interface IImage {
-  id: string;
-  url: string;
+  imageUrl: string;
 }

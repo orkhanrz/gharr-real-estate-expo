@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList, StyleProp, View, ViewStyle } from "react-native";
 
 interface GridListProps<T> {
-  data: T[];
+  data: T[] | undefined;
   columns?: number;
   gap?: number;
   scrollEnabled?: boolean;

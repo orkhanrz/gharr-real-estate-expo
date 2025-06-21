@@ -4,9 +4,8 @@ import Reviews from "@/components/property/reviews";
 import Button from "@/components/UI/button";
 import MenuItem from "@/components/UI/menu-item";
 import PropertyTopBar from "@/components/UI/property/top-bar";
-import { properties } from "@/constants/data";
 import { globalStyles } from "@/constants/styles";
-import { IProperty } from "@/models/property";
+import { useGetSingleProperty } from "@/services/properties";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -31,9 +30,13 @@ export default function PropertyDetails() {
     setActivemenuItemId(id);
   };
 
-  const property = properties.find(
-    (property) => property.id == id
-  ) as IProperty;
+  const { data: property } = useGetSingleProperty(id as string);
+
+  console.log(property);
+
+  if (!property) {
+    return <View></View>;
+  }
 
   let content = <PropertyDescription property={property} />;
 
@@ -50,7 +53,10 @@ export default function PropertyDetails() {
       <View style={styles.imageWrapper}>
         <PropertyTopBar />
 
-        <Image source={{ uri: property?.image }} style={styles.imageStyles} />
+        <Image
+          source={{ uri: property?.imageUrl }}
+          style={styles.imageStyles}
+        />
       </View>
 
       <View style={styles.container}>

@@ -3,8 +3,8 @@ import Property from "@/components/property/property";
 import PropertyDetailed from "@/components/property/property-detailed";
 import { GridList } from "@/components/UI/grid-list";
 import SearchInput from "@/components/UI/search-input";
-import { properties } from "@/constants/data";
 import { globalStyles } from "@/constants/styles";
+import { useGetProperties } from "@/services/properties";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -28,6 +28,8 @@ const categories = [
 export default function HomeScreen() {
   const router = useRouter();
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
+
+  const { data: properties } = useGetProperties();
 
   const enableSearch = () => {
     setIsSearchEnabled(true);
@@ -89,16 +91,16 @@ export default function HomeScreen() {
             data={properties}
             renderItem={(item) => (
               <Property
-                id={item.id}
-                key={item.id}
-                image={item.image}
+                id={item._id}
+                key={item._id}
+                image={item.imageUrl}
                 title={item.title}
                 price={item.price}
                 address={item.location.address}
                 small={true}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             columns={2}
             gap={18}
             contentContainerStyle={styles.properties}
@@ -116,16 +118,16 @@ export default function HomeScreen() {
               data={properties}
               renderItem={(item) => (
                 <Property
-                  id={item.id}
-                  key={item.id}
-                  image={item.image}
+                  id={item._id}
+                  key={item._id}
+                  image={item.imageUrl}
                   title={item.title}
                   price={item.price}
                   address={item.location.address}
                   containerStyles={{ width: 223 }}
                 />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               gap={18}
               contentContainerStyle={styles.properties}
             />
@@ -141,18 +143,18 @@ export default function HomeScreen() {
               data={properties}
               renderItem={(item) => (
                 <PropertyDetailed
-                  id={item.id}
+                  id={item._id}
                   address={item.location.address}
                   category={item.category}
-                  comfort={item.comfort}
-                  image={item.image}
+                  bedrooms={item.bedrooms}
+                  imageUrl={item.imageUrl}
                   price={item.price}
                   rating={item.rating}
                   reviews={item.reviews}
                   title={item.title}
                 />
               )}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id}
               gap={10}
               contentContainerStyle={styles.propertiesExtra}
             />

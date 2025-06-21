@@ -5,25 +5,25 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
   id: string;
-  image: string;
+  imageUrl: string;
   rating: number;
   category: string;
   title: string;
   address: string;
-  reviews: number;
-  comfort: number;
+  reviews: [];
+  bedrooms: number;
   price: number;
 };
 
 export default function PropertyDetailed({
   id,
-  image,
+  imageUrl,
   rating,
   category,
   title,
   address,
   reviews,
-  comfort,
+  bedrooms,
   price
 }: Props) {
   const router = useRouter();
@@ -34,19 +34,21 @@ export default function PropertyDetailed({
 
   return (
     <Pressable style={styles.container} onPress={navigate}>
-      <Image style={styles.image} source={{ uri: image }} />
+      <Image style={styles.image} source={{ uri: imageUrl }} />
 
       <View style={styles.info}>
         <View style={styles.infoTop}>
-          <View style={styles.rating}>
-            <Ionicons
-              style={styles.ratingIcon}
-              name="star"
-              size={13}
-              color={"#EEA651"}
-            />
-            <Text style={styles.ratingText}>{rating}</Text>
-          </View>
+          {rating && (
+            <View style={styles.rating}>
+              <Ionicons
+                style={styles.ratingIcon}
+                name="star"
+                size={13}
+                color={"#EEA651"}
+              />
+              <Text style={styles.ratingText}>{rating}</Text>
+            </View>
+          )}
 
           <Text style={styles.category}>{category}</Text>
         </View>
@@ -72,7 +74,7 @@ export default function PropertyDetailed({
                 name="cash"
                 color={"#122D4D"}
               />
-              <Text style={styles.bottomLeftItemText}>{reviews}</Text>
+              <Text style={styles.bottomLeftItemText}>{reviews.length}</Text>
             </View>
             <View style={styles.bottomLeftItem}>
               <Ionicons
@@ -81,7 +83,7 @@ export default function PropertyDetailed({
                 name="bed"
                 color={"#122D4D"}
               />
-              <Text style={styles.bottomLeftItemText}>{comfort}</Text>
+              <Text style={styles.bottomLeftItemText}>{bedrooms}</Text>
             </View>
           </View>
 
