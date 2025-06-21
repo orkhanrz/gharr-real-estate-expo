@@ -1,33 +1,33 @@
 export interface UserSignIn {
-	username: string;
-	password: string;
+  username: string;
+  password: string;
 }
 
 export interface UserSignUp {
-	username: string;
-	password: string;
-	email: string;
+  username: string;
+  password: string;
+  email: string;
 }
 
 export interface UserComplete {
-	fullname: string;
-	phoneNumber: string;
-	country: string;
+  fullName: string;
+  phoneNumber: string;
+  country: string;
 }
 
 export interface UserSignUpRequestBody {
-	username: string;
-	password: string;
-	email: string;
-	fullname: string;
-	phoneNumber: string;
-	country: string;
+  username: string;
+  password: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  country: string;
 }
 
 export interface IAgent {
-	image: string;
-	fullName: string;
-	type: string;
-	email: string;
-	phone: string;
+  image: string;
+  fullName: string;
+  type: string;
+  email: string;
+  phone: string;
 }
