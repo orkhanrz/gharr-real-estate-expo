@@ -5,11 +5,13 @@ import {
   completeSignUpDefaultValues,
   completeSignUpValidationSchema
 } from "@/constants/auth";
+import { BackendError, ValidationErrorResponseItem } from "@/models/error";
 import { UserComplete, UserSignUp, UserSignUpRequestBody } from "@/models/user";
 import { useSignUp } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { AxiosError } from "axios";
+import { useLocalSearchParams } from "expo-router";
 import { useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -45,16 +47,20 @@ const countries = [
 ];
 
 export default function CompleteProfile() {
-  const router = useRouter();
-
   const signUpFormData = useLocalSearchParams() as unknown as UserSignUp;
 
   const { mutate, isPending } = useSignUp();
 
-  const { control, handleSubmit } = useForm<UserComplete>({
+  const { control, handleSubmit, setError } = useForm<UserComplete>({
     defaultValues: completeSignUpDefaultValues,
     resolver: yupResolver(completeSignUpValidationSchema)
   });
+
+  const setValidationErrors = (
+    errors: ValidationErrorResponseItem<UserComplete>[]
+  ) => {
+    errors.forEach((err) => setError(err.path, { message: err.message }));
+  };
 
   const handleFormSubmit = (completeFormData: UserComplete) => {
     const formData: UserSignUpRequestBody = {
@@ -62,7 +68,15 @@ export default function CompleteProfile() {
       ...completeFormData
     };
 
-    mutate(formData);
+    mutate(formData, {
+      onError: (error: Error) => {
+        const err = error as AxiosError<BackendError>;
+
+        if (err.response?.data.errors?.length) {
+          setValidationErrors(err.response.data.errors);
+        }
+      }
+    });
   };
 
   return (

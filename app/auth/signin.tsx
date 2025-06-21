@@ -2,10 +2,12 @@ import Button from "@/components/UI/button";
 import Input from "@/components/UI/input";
 import { signInDefaultValues, signInValidationSchema } from "@/constants/auth";
 import { globalStyles } from "@/constants/styles";
+import { BackendError, ValidationErrorResponseItem } from "@/models/error";
 import { UserSignIn } from "@/models/user";
 import { useSignIn } from "@/services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,17 +20,31 @@ export default function SignIn() {
 
   const { mutate, isPending } = useSignIn();
 
-  const { control, handleSubmit } = useForm<UserSignIn>({
+  const { control, setError, handleSubmit } = useForm<UserSignIn>({
     defaultValues: signInDefaultValues,
     resolver: yupResolver(signInValidationSchema)
   });
+
+  const setValidationErrors = (
+    errors: ValidationErrorResponseItem<UserSignIn>[]
+  ) => {
+    errors.forEach((err) => setError(err.path, { message: err.message }));
+  };
 
   const handlePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
   const handleSignIn = (formBody: UserSignIn) => {
-    mutate(formBody);
+    mutate(formBody, {
+      onError: (error: Error) => {
+        const err = error as AxiosError<BackendError>;
+
+        if (err.response?.data.errors?.length) {
+          setValidationErrors(err.response.data.errors);
+        }
+      }
+    });
   };
 
   return (
