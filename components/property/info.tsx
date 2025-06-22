@@ -85,7 +85,7 @@ export default function Info({ property }: Props) {
 					renderItem={(item) => (
 						<PropertyInfoItem icon={item.icon} text={item.name} />
 					)}
-					keyExtractor={(item) => item.id}
+					keyExtractor={(item) => item._id}
 					columns={4}
 					gap={10}
 					scrollEnabled={false}

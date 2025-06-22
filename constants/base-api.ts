@@ -14,8 +14,9 @@ baseApi.interceptors.request.use(async (config) => {
 	return config;
 });
 
-baseApi.interceptors.response.use(null, (err) => {
-	console.log(err.response.status);
-});
+baseApi.interceptors.response.use(
+	(response) => response,
+	async (err) => {}
+);
 
 export default baseApi;
