@@ -1,4 +1,6 @@
+import { refreshToken } from "@/services/auth";
 import { getToken } from "@/utils/auth";
+import { showToast } from "@/utils/toast";
 import axios from "axios";
 import { config } from "./config";
 
@@ -16,7 +18,19 @@ baseApi.interceptors.request.use(async (config) => {
 
 baseApi.interceptors.response.use(
 	(response) => response,
-	async (err) => {}
+	(err) => {
+		if (err.status == 401 || err.response.status == 401) {
+			refreshToken();
+		}
+
+		if (err.response.data.message) {
+			showToast("error", err.response.data.message);
+		}
+
+		console.log(err);
+
+		return Promise.reject(err);
+	}
 );
 
 export default baseApi;

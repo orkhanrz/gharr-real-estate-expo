@@ -2,20 +2,15 @@ import Button from "@/components/UI/button";
 import IconButton from "@/components/UI/icon-button";
 import SettingItem from "@/components/UI/setting-item";
 import TopBar from "@/components/UI/top-bar";
-import { removeToken } from "@/utils/auth";
-import { useRouter } from "expo-router";
+import { removeTokenAndLogOut } from "@/utils/auth";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
-	const router = useRouter();
-
 	const handleSettingPress = () => {};
 
 	const handleLogOut = async () => {
-		await removeToken();
-
-		router.replace("/auth/signin");
+		await removeTokenAndLogOut();
 	};
 
 	return (

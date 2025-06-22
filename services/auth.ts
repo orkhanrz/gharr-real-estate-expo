@@ -1,6 +1,11 @@
 import { config } from "@/constants/config";
 import { UserSignIn, UserSignUpRequestBody } from "@/models/user";
-import { errorHandler, getToken, successHandler } from "@/utils/auth";
+import {
+	errorHandler,
+	removeTokenAndLogOut,
+	saveToken,
+	successHandler,
+} from "@/utils/auth";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "expo-router";
@@ -28,13 +33,21 @@ export const signIn = async (reqBody: UserSignIn) => {
 };
 
 export const refreshToken = async () => {
-	const accessToken = await getToken();
+	try {
+		const response = await axios.post(`${config.backendUrl}/auth/refresh-token`);
 
-	const response = await axios.post(`${config.backendUrl}/auth/refresh-token`, null, {
-		headers: { Authorization: "Bearer " + accessToken },
-	});
+		if (response.status == 200) {
+			const newToken = response.data.token;
 
-	return response;
+			await saveToken(newToken);
+
+			return;
+		}
+
+		await removeTokenAndLogOut();
+	} catch (err) {
+		await removeTokenAndLogOut();
+	}
 };
 
 export const useSignIn = () => {
