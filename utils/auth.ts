@@ -5,36 +5,40 @@ import { router, Router } from "expo-router";
 import { showToast } from "./toast";
 
 export const getToken = async () => {
-	const token = await AsyncStorage.getItem("token");
+  const token = await AsyncStorage.getItem("token");
 
-	return token;
+  return token;
 };
 
 export const saveToken = async (token: string) => {
-	await AsyncStorage.setItem("token", token);
+  await AsyncStorage.setItem("token", token);
 };
 
 export const removeToken = async () => {
-	await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("token");
 };
 
 export const removeTokenAndLogOut = async () => {
-	await removeToken();
-	router.navigate("/auth/signin");
+  await removeToken();
+  router.navigate("/auth/signin");
 };
 
 export const successHandler = async (res: AxiosResponse, router: Router) => {
-	const token = res.data.token;
+  const token = res.data.token;
 
-	await saveToken(token);
+  await saveToken(token);
 
-	router.replace("/main/home");
+  router.replace("/main/home");
 };
 
 export const errorHandler = (error: Error) => {
-	const err = error as AxiosError<BackendError>;
+  const err = error as AxiosError<BackendError>;
 
-	if (err.response) {
-		showToast("error", err.response.data.message);
-	}
+  if (err.message) {
+    return showToast("error", err.message);
+  }
+
+  if (err.response) {
+    showToast("error", err.response.data.message);
+  }
 };
