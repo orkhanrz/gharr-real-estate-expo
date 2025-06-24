@@ -4,14 +4,14 @@ import { IAgent } from "@/models/user";
 const images: IImage[] = [];
 
 const facilities: IFacility[] = [
-  { id: "1", name: "Car  Parking", icon: "car" },
-  { id: "2", name: "Swimming Pool", icon: "water" },
-  { id: "3", name: "Gym & Fit", icon: "barbell" },
-  { id: "4", name: "Restaurant", icon: "restaurant" },
-  { id: "5", name: "Wi-fi", icon: "wifi" },
-  { id: "6", name: "Pet Center", icon: "paw" },
-  { id: "7", name: "Sports Center", icon: "person" },
-  { id: "8", name: "Laundry", icon: "basket" }
+  { _id: "1", name: "Car  Parking", icon: "car" },
+  { _id: "2", name: "Swimming Pool", icon: "water" },
+  { _id: "3", name: "Gym & Fit", icon: "barbell" },
+  { _id: "4", name: "Restaurant", icon: "restaurant" },
+  { _id: "5", name: "Wi-fi", icon: "wifi" },
+  { _id: "6", name: "Pet Center", icon: "paw" },
+  { _id: "7", name: "Sports Center", icon: "person" },
+  { _id: "8", name: "Laundry", icon: "basket" }
 ];
 
 export const agents: IAgent[] = [

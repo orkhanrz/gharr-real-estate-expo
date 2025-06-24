@@ -1,4 +1,7 @@
+import { queryClient } from "@/app/_layout";
 import { globalStyles } from "@/constants/styles";
+import { useToggleFavorite } from "@/services/user";
+import { getTokenDecoded } from "@/utils/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import {
@@ -14,9 +17,10 @@ import {
 type Props = {
   id: string;
   title: string;
-  image: string;
+  imageUrl: string;
   price: number;
   address: string;
+  isFavorite?: boolean;
   small?: boolean;
   containerStyles?: StyleProp<ViewStyle>;
 };
@@ -24,23 +28,43 @@ type Props = {
 export default function Property({
   id,
   title,
-  image,
+  imageUrl,
   price,
   address,
+  isFavorite,
   small,
   containerStyles
 }: Props) {
   const router = useRouter();
 
+  const { mutate } = useToggleFavorite();
+
   const navigate = () => {
     router.push(`/properties/${id}`);
+  };
+
+  const handleFavorite = async () => {
+    const token = await getTokenDecoded();
+
+    if (token) {
+      const userId = token.id;
+
+      mutate(
+        { userId, propertyId: id },
+        {
+          onSuccess: ({ data }) => {
+            queryClient.invalidateQueries(["properties"]);
+          }
+        }
+      );
+    }
   };
 
   return (
     <Pressable style={[styles.container, containerStyles]} onPress={navigate}>
       <Image
         style={[styles.image, small && styles.imageSmall]}
-        source={{ uri: image }}
+        source={{ uri: imageUrl }}
       />
 
       <View style={[styles.infoContainer, small && styles.infoContainerSmall]}>
@@ -65,8 +89,13 @@ export default function Property({
 
           <Pressable
             style={[styles.infoButton, small && styles.infoButtonSmall]}
+            onPress={handleFavorite}
           >
-            <Ionicons name="heart" size={small ? 10 : 12} color={"#0066FF"} />
+            <Ionicons
+              name={isFavorite ? "heart" : "heart-outline"}
+              size={small ? 10 : 12}
+              color={"#0066FF"}
+            />
           </Pressable>
         </View>
       </View>

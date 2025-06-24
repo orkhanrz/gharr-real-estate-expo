@@ -1,5 +1,6 @@
 import Map from "@/components/map";
 import IconButton from "@/components/UI/icon-button";
+import LoadingScreen from "@/components/UI/loading-screen";
 import { globalStyles } from "@/constants/styles";
 import { useGetProperties } from "@/services/properties";
 import { getCurrentCity } from "@/utils/location";
@@ -9,51 +10,57 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function MapScreen() {
-	const router = useRouter();
-	const insets = useSafeAreaInsets();
-	const [city, setCity] = useState<string | null>();
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const [city, setCity] = useState<string | null>();
 
-	useEffect(() => {
-		(async () => {
-			const currentCity = await getCurrentCity();
-			setCity(currentCity);
-		})();
-	}, []);
+  useEffect(() => {
+    (async () => {
+      const currentCity = await getCurrentCity();
+      setCity(currentCity);
+    })();
+  }, []);
 
-	const goBack = () => {
-		router.back();
-	};
+  const goBack = () => {
+    router.back();
+  };
 
-	const { data: properties } = useGetProperties();
+  const { data: properties, isLoading } = useGetProperties(
+    city ? { city } : {}
+  );
 
-	return (
-		<View style={styles.container}>
-			<IconButton
-				icon="arrow-back-outline"
-				iconSize={24}
-				iconColor={globalStyles.blackColor}
-				buttonStyles={[styles.navigationBtn]}
-				onPress={goBack}
-			/>
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
-			<Map properties={properties} />
-		</View>
-	);
+  return (
+    <View style={styles.container}>
+      <IconButton
+        icon="arrow-back-outline"
+        iconSize={24}
+        iconColor={globalStyles.blackColor}
+        buttonStyles={[styles.navigationBtn]}
+        onPress={goBack}
+      />
+
+      <Map properties={properties} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		position: "relative",
-	},
-	navigationBtn: {
-		width: 40,
-		height: 40,
-		backgroundColor: globalStyles.whiteColor,
-		borderRadius: 50,
-		position: "absolute",
-		left: 12,
-		top: 51,
-		zIndex: 100,
-	},
+  container: {
+    flex: 1,
+    position: "relative"
+  },
+  navigationBtn: {
+    width: 40,
+    height: 40,
+    backgroundColor: globalStyles.whiteColor,
+    borderRadius: 50,
+    position: "absolute",
+    left: 12,
+    top: 51,
+    zIndex: 100
+  }
 });

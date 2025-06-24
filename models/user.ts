@@ -1,3 +1,18 @@
+import { IProperty } from "./property";
+
+export interface UserInfo {
+  _id: string;
+  username: string;
+  password: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  country: string;
+  type: string;
+  image: string;
+  favorites: IProperty[];
+}
+
 export interface UserSignIn {
   username: string;
   password: string;
@@ -30,4 +45,10 @@ export interface IAgent {
   type: string;
   email: string;
   phone: string;
+}
+
+export interface Token {
+  exp: string;
+  iat: string;
+  id: string;
 }

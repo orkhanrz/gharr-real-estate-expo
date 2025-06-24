@@ -1,4 +1,4 @@
 export const config = {
-	googleApiKey: "AIzaSyAnZBan6jgqrfWavu9Zjfze4nAGIkEiR00",
-	backendUrl: "http://192.168.0.104:8000",
+  googleApiKey: "AIzaSyAnZBan6jgqrfWavu9Zjfze4nAGIkEiR00",
+  backendUrl: "http://10.50.8.251:8000"
 };

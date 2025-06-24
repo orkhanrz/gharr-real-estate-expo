@@ -1,4 +1,5 @@
 import { BackendError } from "@/models/error";
+import { Token } from "@/models/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AxiosError, AxiosResponse } from "axios";
 import { router, Router } from "expo-router";
@@ -8,6 +9,27 @@ export const getToken = async () => {
   const token = await AsyncStorage.getItem("token");
 
   return token;
+};
+
+export const getTokenDecoded = async (): Promise<Token | null> => {
+  try {
+    const token = await getToken();
+
+    if (!token) {
+      return null;
+    }
+
+    const payloadInBase64Url = token.split(".")[1];
+    const payloadConvertedToBase64 = payloadInBase64Url
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+    const payloadJsonFormatted = atob(payloadConvertedToBase64);
+    const payloadParsed = JSON.parse(payloadJsonFormatted);
+    return payloadParsed;
+  } catch (err) {
+    console.error("Failed to decode token!");
+    return null;
+  }
 };
 
 export const saveToken = async (token: string) => {
