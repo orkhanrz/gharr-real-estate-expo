@@ -4,7 +4,15 @@ import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import IconButton from "../icon-button";
 
-export default function PropertyTopBar() {
+type Props = {
+  isFavorite: boolean;
+  onHandleFavorite: () => void;
+};
+
+export default function PropertyTopBar({
+  isFavorite,
+  onHandleFavorite
+}: Props) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
@@ -30,10 +38,11 @@ export default function PropertyTopBar() {
           buttonStyles={styles.navigationBtn}
         />
         <IconButton
-          icon="heart-outline"
+          icon={isFavorite ? "heart" : "heart-outline"}
           iconSize={24}
           iconColor={globalStyles.blackColor}
           buttonStyles={styles.navigationBtn}
+          onPress={onHandleFavorite}
         />
       </View>
     </View>

@@ -1,5 +1,7 @@
 import { BackendError } from "@/models/error";
 import { Token } from "@/models/user";
+import { store } from "@/store";
+import { logOut } from "@/store/user/user-slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AxiosError, AxiosResponse } from "axios";
 import { router, Router } from "expo-router";
@@ -42,6 +44,7 @@ export const removeToken = async () => {
 
 export const removeTokenAndLogOut = async () => {
   await removeToken();
+  store.dispatch(logOut());
   router.navigate("/auth/signin");
 };
 

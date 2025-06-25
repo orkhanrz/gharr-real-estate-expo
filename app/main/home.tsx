@@ -4,13 +4,14 @@ import PropertyDetailed from "@/components/property/property-detailed";
 import { GridList } from "@/components/UI/grid-list";
 import LoadingScreen from "@/components/UI/loading-screen";
 import SearchInput from "@/components/UI/search-input";
+import { config } from "@/constants/config";
 import { globalStyles } from "@/constants/styles";
 import { useGetProperties } from "@/services/properties";
 import { useGetUserFavorites } from "@/services/user";
-import { getTokenDecoded } from "@/utils/auth";
+import { RootState } from "@/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   Pressable,
@@ -20,6 +21,7 @@ import {
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 const categories = [
   { id: 1, label: "Recommended" },
@@ -31,24 +33,13 @@ const categories = [
 export default function HomeScreen() {
   const router = useRouter();
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
-  const [userId, setUserId] = useState<null | string>(null);
+  const user = useSelector((state: RootState) => state.user.user);
 
   const { data: properties, isLoading: isPropertiesLoading } =
     useGetProperties();
-  const { data: favorites, isLoading: isFavoritesLoading } =
-    useGetUserFavorites(userId as string);
+  const { data: favorites } = useGetUserFavorites(user?._id as string);
 
-  useEffect(() => {
-    (async function () {
-      const token = await getTokenDecoded();
-
-      if (token) {
-        const userId = token.id;
-
-        setUserId(userId);
-      }
-    })();
-  }, []);
+  const favoritesIds = favorites?.map((favorite) => favorite._id) || [];
 
   const enableSearch = () => {
     setIsSearchEnabled(true);
@@ -62,7 +53,7 @@ export default function HomeScreen() {
     router.navigate("/main/profile");
   };
 
-  if (isPropertiesLoading || isFavoritesLoading) {
+  if (isPropertiesLoading) {
     return <LoadingScreen />;
   }
 
@@ -93,7 +84,7 @@ export default function HomeScreen() {
 
             <Pressable onPress={navigateToProfile}>
               <Image
-                source={require("@/assets/images/profile-img.jpg")}
+                source={{ uri: `${config.backendUrl}/${user?.image}` }}
                 style={styles.screenTopImage}
               />
             </Pressable>
@@ -120,6 +111,7 @@ export default function HomeScreen() {
                 title={item.title}
                 price={item.price}
                 address={item.location.address}
+                isFavorite={favoritesIds.includes(item._id)}
                 small={true}
               />
             )}
@@ -147,6 +139,7 @@ export default function HomeScreen() {
                   title={item.title}
                   price={item.price}
                   address={item.location.address}
+                  isFavorite={favoritesIds.includes(item._id)}
                   containerStyles={{ width: 223 }}
                 />
               )}

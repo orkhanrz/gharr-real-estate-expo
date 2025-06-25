@@ -45,7 +45,6 @@ export const toggleFavorite = async (params: {
 export const useToggleFavorite = () => {
   return useMutation({
     mutationFn: toggleFavorite,
-    onSuccess: (res) => console.log(res),
     onError: errorHandler
   });
 };

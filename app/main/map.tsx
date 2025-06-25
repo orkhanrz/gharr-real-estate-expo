@@ -1,17 +1,15 @@
 import Map from "@/components/map";
 import IconButton from "@/components/UI/icon-button";
-import LoadingScreen from "@/components/UI/loading-screen";
 import { globalStyles } from "@/constants/styles";
 import { useGetProperties } from "@/services/properties";
 import { getCurrentCity } from "@/utils/location";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function MapScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+
   const [city, setCity] = useState<string | null>();
 
   useEffect(() => {
@@ -30,7 +28,7 @@ export default function MapScreen() {
   );
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <Map properties={[]} />;
   }
 
   return (

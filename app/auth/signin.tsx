@@ -5,6 +5,8 @@ import { globalStyles } from "@/constants/styles";
 import { BackendError, ValidationErrorResponseItem } from "@/models/error";
 import { UserSignIn } from "@/models/user";
 import { useSignIn } from "@/services/auth";
+import { logIn } from "@/store/user/user-slice";
+import { saveToken } from "@/utils/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError } from "axios";
@@ -13,9 +15,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 
 export default function SignIn() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const { mutate, isPending } = useSignIn();
@@ -37,6 +41,12 @@ export default function SignIn() {
 
   const handleSignIn = (formBody: UserSignIn) => {
     mutate(formBody, {
+      onSuccess: async (res) => {
+        const { token, user } = res.data;
+        await saveToken(token);
+        dispatch(logIn({ token, user }));
+        router.replace("/main/home");
+      },
       onError: (error: Error) => {
         const err = error as AxiosError<BackendError>;
 

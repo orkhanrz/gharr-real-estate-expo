@@ -1,3 +1,4 @@
+import { queryClient } from "@/app/_layout";
 import PropertyGallery from "@/components/property/gallery";
 import PropertyDescription from "@/components/property/info";
 import Reviews from "@/components/property/reviews";
@@ -7,10 +8,13 @@ import MenuItem from "@/components/UI/menu-item";
 import PropertyTopBar from "@/components/UI/property/top-bar";
 import { globalStyles } from "@/constants/styles";
 import { useGetSingleProperty } from "@/services/properties";
+import { useGetUserFavorites, useToggleFavorite } from "@/services/user";
+import { RootState } from "@/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 interface IMenuItem {
   id: number;
@@ -26,12 +30,36 @@ const menuItems: IMenuItem[] = [
 export default function PropertyDetails() {
   const { id } = useLocalSearchParams();
   const [activemenuItemId, setActivemenuItemId] = useState(1);
+  const userId = useSelector(
+    (state: RootState) => state.user.user?._id
+  ) as string;
+
+  const { mutate } = useToggleFavorite();
+  const { data: favorites } = useGetUserFavorites(userId);
+  const { data: property, isLoading } = useGetSingleProperty(id as string);
+  const favoriteIds = favorites?.map((favorite) => favorite._id) || [];
+  const isFavorite = favoriteIds.includes(id as string);
 
   const setActiveMenu = (id: number) => {
     setActivemenuItemId(id);
   };
 
-  const { data: property, isLoading } = useGetSingleProperty(id as string);
+  const handleFavorite = async () => {
+    mutate(
+      { userId, propertyId: id as string },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["properties"],
+            exact: false
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["user", userId, "favorites"]
+          });
+        }
+      }
+    );
+  };
 
   if (!property || isLoading) {
     return <LoadingScreen />;
@@ -50,7 +78,10 @@ export default function PropertyDetails() {
   return (
     <ScrollView alwaysBounceVertical={false}>
       <View style={styles.imageWrapper}>
-        <PropertyTopBar />
+        <PropertyTopBar
+          isFavorite={isFavorite}
+          onHandleFavorite={handleFavorite}
+        />
 
         <Image source={{ uri: property.imageUrl }} style={styles.imageStyles} />
       </View>

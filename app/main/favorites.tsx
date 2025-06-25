@@ -4,10 +4,10 @@ import { GridList } from "@/components/UI/grid-list";
 import LoadingScreen from "@/components/UI/loading-screen";
 import TopBar from "@/components/UI/top-bar";
 import { useGetUserFavorites } from "@/services/user";
-import { getTokenDecoded } from "@/utils/auth";
-import { useEffect, useState } from "react";
+import { RootState } from "@/store";
 import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 const categories = [
   { id: 1, label: "All" },
@@ -19,19 +19,7 @@ const categories = [
 ];
 
 export default function FavoritesScreen() {
-  const [userId, setUserId] = useState<null | string>(null);
-
-  useEffect(() => {
-    (async function () {
-      const token = await getTokenDecoded();
-
-      if (token) {
-        const userId = token.id;
-
-        setUserId(userId);
-      }
-    })();
-  }, []);
+  const userId = useSelector((state: RootState) => state.user.user?._id);
 
   const { data: properties, isLoading } = useGetUserFavorites(userId as string);
 

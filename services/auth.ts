@@ -1,61 +1,60 @@
 import { config } from "@/constants/config";
 import { UserSignIn, UserSignUpRequestBody } from "@/models/user";
-import {
-	errorHandler,
-	removeTokenAndLogOut,
-	saveToken,
-	successHandler,
-} from "@/utils/auth";
+import { store } from "@/store";
+import { logIn } from "@/store/user/user-slice";
+import { errorHandler, removeTokenAndLogOut, saveToken } from "@/utils/auth";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useRouter } from "expo-router";
 
 export const signUp = async (reqBody: UserSignUpRequestBody) => {
-	const response = await axios.post(`${config.backendUrl}/auth/signup`, reqBody);
+  const response = await axios.post(
+    `${config.backendUrl}/auth/signup`,
+    reqBody
+  );
 
-	return response;
+  return response;
 };
 
 export const useSignUp = () => {
-	const router = useRouter();
-
-	return useMutation({
-		mutationFn: signUp,
-		onSuccess: (res) => successHandler(res, router),
-		onError: errorHandler,
-	});
+  return useMutation({
+    mutationFn: signUp,
+    onError: errorHandler
+  });
 };
 
 export const signIn = async (reqBody: UserSignIn) => {
-	const response = await axios.post(`${config.backendUrl}/auth/signin`, reqBody);
+  const response = await axios.post(
+    `${config.backendUrl}/auth/signin`,
+    reqBody
+  );
 
-	return response;
+  return response;
 };
 
 export const refreshToken = async () => {
-	try {
-		const response = await axios.post(`${config.backendUrl}/auth/refresh-token`);
+  try {
+    const response = await axios.post(
+      `${config.backendUrl}/auth/refresh-token`
+    );
 
-		if (response.status == 200) {
-			const newToken = response.data.token;
+    if (response.status == 200) {
+      const { token, user } = response.data;
 
-			await saveToken(newToken);
+      await saveToken(token);
+      store.dispatch(logIn({ token, user }));
 
-			return;
-		}
+      return;
+    }
 
-		await removeTokenAndLogOut();
-	} catch (err) {
-		await removeTokenAndLogOut();
-	}
+    await removeTokenAndLogOut();
+  } catch (err) {
+    await removeTokenAndLogOut();
+  }
 };
 
 export const useSignIn = () => {
-	const router = useRouter();
-
-	return useMutation({
-		mutationFn: signIn,
-		onSuccess: (res) => successHandler(res, router),
-		onError: errorHandler,
-	});
+  return useMutation({
+    mutationFn: signIn,
+    onError: errorHandler
+  });
 };

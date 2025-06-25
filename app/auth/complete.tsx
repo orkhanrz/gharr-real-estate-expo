@@ -8,10 +8,12 @@ import {
 import { BackendError, ValidationErrorResponseItem } from "@/models/error";
 import { UserComplete, UserSignUp, UserSignUpRequestBody } from "@/models/user";
 import { useSignUp } from "@/services/auth";
+import { logIn } from "@/store/user/user-slice";
+import { saveToken } from "@/utils/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError } from "axios";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -22,6 +24,7 @@ import {
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 
 const countries = [
   {
@@ -48,7 +51,8 @@ const countries = [
 
 export default function CompleteProfile() {
   const signUpFormData = useLocalSearchParams() as unknown as UserSignUp;
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   const { mutate, isPending } = useSignUp();
 
   const { control, handleSubmit, setError } = useForm<UserComplete>({
@@ -69,6 +73,12 @@ export default function CompleteProfile() {
     };
 
     mutate(formData, {
+      onSuccess: async (res) => {
+        const { token, user } = res.data;
+        await saveToken(token);
+        dispatch(logIn({ token, user }));
+        router.replace("/main/home");
+      },
       onError: (error: Error) => {
         const err = error as AxiosError<BackendError>;
 

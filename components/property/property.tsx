@@ -1,7 +1,7 @@
 import { queryClient } from "@/app/_layout";
 import { globalStyles } from "@/constants/styles";
 import { useToggleFavorite } from "@/services/user";
-import { getTokenDecoded } from "@/utils/auth";
+import { RootState } from "@/store";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import {
@@ -13,6 +13,7 @@ import {
   View,
   ViewStyle
 } from "react-native";
+import { useSelector } from "react-redux";
 
 type Props = {
   id: string;
@@ -36,6 +37,9 @@ export default function Property({
   containerStyles
 }: Props) {
   const router = useRouter();
+  const userId = useSelector(
+    (state: RootState) => state.user.user?._id
+  ) as string;
 
   const { mutate } = useToggleFavorite();
 
@@ -44,20 +48,20 @@ export default function Property({
   };
 
   const handleFavorite = async () => {
-    const token = await getTokenDecoded();
-
-    if (token) {
-      const userId = token.id;
-
-      mutate(
-        { userId, propertyId: id },
-        {
-          onSuccess: ({ data }) => {
-            queryClient.invalidateQueries(["properties"]);
-          }
+    mutate(
+      { userId, propertyId: id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["properties"],
+            exact: false
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["user", userId, "favorites"]
+          });
         }
-      );
-    }
+      }
+    );
   };
 
   return (
