@@ -26,7 +26,7 @@ export default function IconButton({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: globalStyles.lightPrimaryColor,
+    backgroundColor: globalStyles.primaryColor,
     width: 52,
     height: 52,
     borderRadius: 10,

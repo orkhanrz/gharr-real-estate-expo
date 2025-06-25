@@ -1,21 +1,26 @@
 import Button from "@/components/UI/button";
+import IconButton from "@/components/UI/icon-button";
 import Input from "@/components/UI/input";
 import Select from "@/components/UI/select";
+import TopBar from "@/components/UI/top-bar";
 import {
   completeSignUpDefaultValues,
   completeSignUpValidationSchema
 } from "@/constants/auth";
+import { globalStyles } from "@/constants/styles";
 import { BackendError, ValidationErrorResponseItem } from "@/models/error";
 import { UserComplete, UserSignUp, UserSignUpRequestBody } from "@/models/user";
 import { useSignUp } from "@/services/auth";
 import { logIn } from "@/store/user/user-slice";
 import { saveToken } from "@/utils/auth";
-import { Ionicons } from "@expo/vector-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError } from "axios";
+import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -50,6 +55,7 @@ const countries = [
 ];
 
 export default function CompleteProfile() {
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const signUpFormData = useLocalSearchParams() as unknown as UserSignUp;
   const router = useRouter();
   const dispatch = useDispatch();
@@ -66,11 +72,38 @@ export default function CompleteProfile() {
     errors.forEach((err) => setError(err.path, { message: err.message }));
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0]);
+    }
+  };
+
   const handleFormSubmit = (completeFormData: UserComplete) => {
-    const formData: UserSignUpRequestBody = {
+    const form: UserSignUpRequestBody = {
       ...signUpFormData,
       ...completeFormData
     };
+
+    if (image) {
+      form.image = {
+        uri: image.uri,
+        name: image.fileName!,
+        type: image.mimeType!
+      };
+    }
+
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(form)) {
+      formData.set(key, value);
+    }
 
     mutate(formData, {
       onSuccess: async (res) => {
@@ -91,6 +124,12 @@ export default function CompleteProfile() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <TopBar
+        text=""
+        leftIcon="arrow-back"
+        onLeftIconPress={() => router.back()}
+      />
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -109,12 +148,24 @@ export default function CompleteProfile() {
               be able to see it.
             </Text>
 
-            <Ionicons
-              style={styles.screenIcon}
-              name="person-circle"
-              size={119}
-              color={"#000929"}
-            />
+            <View style={styles.profileImageContainer}>
+              <Image
+                source={
+                  image
+                    ? { uri: image.uri }
+                    : require("@/assets/images/profile-img.jpg")
+                }
+                style={styles.profileImage}
+              />
+
+              <IconButton
+                buttonStyles={styles.profileImageIcon}
+                icon="camera"
+                iconColor="black"
+                iconSize={16}
+                onPress={pickImage}
+              />
+            </View>
           </View>
 
           <Input
@@ -183,9 +234,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30
   },
-  screenIcon: {
-    marginBottom: 20
+  profileImageContainer: {
+    marginBottom: 20,
+    position: "relative"
   },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 100
+  },
+  profileImageIcon: {
+    position: "absolute",
+    bottom: 15,
+    right: 15,
+    backgroundColor: globalStyles.whiteColor,
+    borderRadius: 100,
+    width: 30,
+    height: 30
+  },
+  screenIcon: {},
   title: {
     fontSize: 18,
     fontWeight: 600,

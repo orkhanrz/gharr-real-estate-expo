@@ -1,15 +1,20 @@
 import { config } from "@/constants/config";
-import { UserSignIn, UserSignUpRequestBody } from "@/models/user";
+import { UserSignIn } from "@/models/user";
 import { store } from "@/store";
 import { logIn } from "@/store/user/user-slice";
 import { errorHandler, removeTokenAndLogOut, saveToken } from "@/utils/auth";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export const signUp = async (reqBody: UserSignUpRequestBody) => {
+export const signUp = async (reqBody: FormData) => {
   const response = await axios.post(
     `${config.backendUrl}/auth/signup`,
-    reqBody
+    reqBody,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
   );
 
   return response;

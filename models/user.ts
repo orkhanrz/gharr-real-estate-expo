@@ -37,6 +37,11 @@ export interface UserSignUpRequestBody {
   fullName: string;
   phoneNumber: string;
   country: string;
+  image?: {
+    uri: string;
+    name: string;
+    type: string;
+  };
 }
 
 export interface IAgent {

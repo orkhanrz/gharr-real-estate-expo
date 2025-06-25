@@ -6,7 +6,9 @@ import { config } from "@/constants/config";
 import { RootState } from "@/store";
 import { logOut } from "@/store/user/user-slice";
 import { removeToken } from "@/utils/auth";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +17,23 @@ export default function ProfileScreen() {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user.user);
+  const [image, setImage] = useState<string | null>(null);
+
   const handleSettingPress = () => {};
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const handleLogOut = async () => {
     await removeToken();
@@ -36,7 +54,9 @@ export default function ProfileScreen() {
           <View style={styles.profileInfo}>
             <View style={styles.imageWrapper}>
               <Image
-                source={{ uri: `${config.backendUrl}/${user?.image}` }}
+                source={{
+                  uri: `${config.backendUrl}/${user?.image}`
+                }}
                 style={styles.image}
               />
               <IconButton
@@ -44,6 +64,7 @@ export default function ProfileScreen() {
                 iconColor="black"
                 iconSize={12}
                 buttonStyles={styles.profileBtn}
+                onPress={pickImage}
               />
             </View>
             <View style={styles.userDetails}>

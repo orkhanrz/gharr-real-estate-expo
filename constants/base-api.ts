@@ -5,32 +5,31 @@ import axios from "axios";
 import { config } from "./config";
 
 const baseApi = axios.create({
-	baseURL: config.backendUrl,
+  baseURL: config.backendUrl
 });
 
 baseApi.interceptors.request.use(async (config) => {
-	const token = await getToken();
+  const token = await getToken();
 
-	config.headers.Authorization = `Bearer ${token}`;
+  config.headers.Authorization = `Bearer ${token}`;
 
-	return config;
+  return config;
 });
 
 baseApi.interceptors.response.use(
-	(response) => response,
-	(err) => {
-		if (err.status == 401 || err.response.status == 401) {
-			refreshToken();
-		}
+  (response) => response,
+  (err) => {
+    if (err.status == 401 || err.response.status == 401) {
+      refreshToken();
+    }
 
-		if (err.response.data.message) {
-			showToast("error", err.response.data.message);
-		}
+    if (err.response.data.message) {
+      console.log(err);
+      showToast("error", err.response.data.message);
+    }
 
-		console.log(err);
-
-		return Promise.reject(err);
-	}
+    return Promise.reject(err);
+  }
 );
 
 export default baseApi;
