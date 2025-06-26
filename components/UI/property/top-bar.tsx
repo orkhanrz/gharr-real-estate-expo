@@ -40,7 +40,9 @@ export default function PropertyTopBar({
         <IconButton
           icon={isFavorite ? "heart" : "heart-outline"}
           iconSize={24}
-          iconColor={globalStyles.blackColor}
+          iconColor={
+            isFavorite ? globalStyles.redColor : globalStyles.blackColor
+          }
           buttonStyles={styles.navigationBtn}
           onPress={onHandleFavorite}
         />

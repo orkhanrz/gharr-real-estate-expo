@@ -21,6 +21,7 @@ baseApi.interceptors.response.use(
   (err) => {
     if (err.status == 401 || err.response.status == 401) {
       refreshToken();
+      return;
     }
 
     if (err.response.data.message) {
